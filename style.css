@@ -6,7 +6,7 @@ body {
 .navbar{
     position: sticky;
     top: 0;
-    background-color: rgb(9, 78, 9);
+   background-image: url('karoffe.png'); 
     color: white;
     display: flex;
     justify-content: space-between;
