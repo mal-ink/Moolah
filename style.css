@@ -2,25 +2,33 @@
 body {
     background-color: rgb(204, 236, 204);
 }
-
-.navbar{
-    position: sticky;
-    top: 0;
-  background-image: url('https://drive.google.com/uc?export=view&id=1QaFd8vnzO3jhY5fverOHZu5P22W2kFsd');
-    color: white;
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 20px;
-    z-index: 1000;
+.navbar {
+  position: sticky;
+  top: 0;
+  background-image: url('moo.png'); 
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 144px;
+  display: flex;
+  justify-content: space-between; /* keep this if you want */
+  align-items: center;
+  padding: 0 20px;
+  z-index: 1000;
+  color: white;
 }
-.logo{
-    font-size: 24px;
-    font-weight: bold;
+
+.nav-links {
+  display: flex;
+  justify-content: flex-end;  /* push links to right */
+  gap: 20px;
+  width: 100%;                /* takes full width of navbar */
+  align-items: center;
 }
 .nav-links a {
-    color: white;
+    color: rgb(3, 65, 24);
     text-decoration: none;
     margin-left: 15px;
+    text-align: right;
   }
   
   .nav-links a:hover {
