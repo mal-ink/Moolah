@@ -1,6 +1,6 @@
 
 body {
-    background-color: rgb(204, 236, 204);
+    background-color: rgb(230, 240, 230);
 }
 .navbar {
   position: sticky;
@@ -23,6 +23,7 @@ body {
   gap: 20px;
   width: 100%;                /* takes full width of navbar */
   align-items: center;
+  font-size: 30px;
 }
 .nav-links a {
     color: rgb(3, 65, 24);
