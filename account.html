@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login Portal</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="navbar">
+  <div class="nav-links">
+    <a href="index.html" >Home</a>
+  </div> 
+</div>
+  <h2>Login</h2>
+  <form id="loginForm">
+    <input type="email" id="Email" placeholder="hello@moolah.com" required><br><br>
+    <input type="text" id="username" placeholder="Username" required><br><br>
+    <input type="password" id="password" placeholder="Password" required><br><br>
+    <button type="submit">Login</button>
+  </form>
+  <p>no account? <a href="#">Sign up!</a></p>
+
+  <p id="message"></p>
+
+  <div id="welcome">
+    <h3>Welcome, <span id="userDisplay"></span>!</h3>
+    <button onclick="logout()">Logout</button>
+  </div>
+
+  <script>
+    const fakeUsers = {
+      "testuser": "password123",
+      "admin": "adminpass"
+    };
+
+    const form = document.getElementById("loginForm");
+    const message = document.getElementById("message");
+    const welcome = document.getElementById("welcome");
+    const userDisplay = document.getElementById("userDisplay");
+
+    // Check if already logged in
+    const currentUser = localStorage.getItem("loggedInUser");
+    if (currentUser) {
+      showWelcome(currentUser);
+      form.style.display = "none";
+    }
+
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value;
+
+      if (fakeUsers[username] && fakeUsers[username] === password) {
+        localStorage.setItem("loggedInUser", username);
+        showWelcome(username);
+        form.style.display = "none";
+      } else {
+        message.textContent = "Invalid username or password.";
+      }
+    });
+
+    function showWelcome(user) {
+      userDisplay.textContent = user;
+      welcome.style.display = "block";
+      message.textContent = "";
+    }
+
+    function logout() {
+      localStorage.removeItem("loggedInUser");
+      location.reload();
+    }
+  </script>
+
+</body>
+</html>
+
+</body>
+</html>

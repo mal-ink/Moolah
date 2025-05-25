@@ -3,7 +3,6 @@ body {
     background-color: rgb(230, 240, 230);
 }
 .navbar {
-  position: sticky;
   top: 0;
   background-image: url('moo.png'); 
   background-size: cover;
