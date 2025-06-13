@@ -71,3 +71,48 @@ body {
 .dropdown:hover .dropdown-content {
   display: flex;
 }
+
+.wrapper{
+  background-color:rgb(230, 240, 230);
+  height: 100vh;
+  width: max(40%, 600px);
+  text-align: center;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.signup-page {
+  min-height: 100vh;
+  background-image: url('moo.png');
+  background-size: cover;
+  background-position: right;
+  overflow: hidden;
+}
+
+form input:hover {
+  border: 2px solid #0d5037;
+}
+
+div:has(input:focus) > label{
+  background-color: #186b4c;
+}
+
+form button:hover {
+  background-color: rgb(165, 207, 165);
+  outline: none;
+}
+
+form button:focus {
+  background-color: rgb(109, 137, 109);
+  outline: none;
+}
+@media(max-width: 1100px){
+  .wrapper{
+    width:min(600px,100%);
+    border-radius: 0;
+  }
+}
