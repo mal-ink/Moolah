@@ -3,6 +3,7 @@ const username_input = document.getElementById('username-input');
 const email_input = document.getElementById('email-input');
 const password_input = document.getElementById('password-input');
 const repeat_password_input = document.getElementById('repeat-password-input');
+const error_message = document.getElementById('error-message');
 form.addEventListener('submit',  (e) =>{
     //e.preventDefault()
     let errors =[]
@@ -15,6 +16,7 @@ form.addEventListener('submit',  (e) =>{
     }
     if (errors.length > 0) {
     e.preventDefault();
+    error_message.innerText = errors.join(', ');
     }
 })
 
