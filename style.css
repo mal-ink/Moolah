@@ -116,3 +116,11 @@ form button:focus {
     border-radius: 0;
   }
 }
+
+.incorrect label {
+  color: rgb(117, 101, 48);
+}
+
+.incorrect input {
+  border: 2px solid rgb(117, 101, 48);
+}
