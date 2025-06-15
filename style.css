@@ -72,6 +72,10 @@ body {
   display: flex;
 }
 
+.main-content {
+  padding: 20px;
+}
+
 .wrapper{
   background-color:rgb(230, 240, 230);
   height: 100vh;
