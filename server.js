@@ -7,12 +7,11 @@ const cors = require('cors');
 const app = express();
 const PORT = 3000;
 
-// Middleware
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+require('dotenv').config();
 
-// POST endpoint
 app.post('/contact', (req, res) => {
   const { firstname, lastname, email, reason } = req.body;
 
@@ -20,7 +19,7 @@ app.post('/contact', (req, res) => {
     service: 'gmail',
     auth: {
       user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
+      pass: process.env.EMAIL_PASS, 
     },
   });
 
@@ -43,7 +42,6 @@ app.post('/contact', (req, res) => {
 });
 
 
-// Start the server
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
