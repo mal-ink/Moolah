@@ -1,71 +1,79 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Moolah Contact</title>
-        <link rel="stylesheet" href="style.css">
-    </head>
-    <body>
-        <div class="navbar">
-  <div class="nav-links">
-    <div >
-    <div class="dropdown">
-      <a href="index.html" class="active">Home</a>
-      <div class="dropdown-content">
-        <a href="about.html">About Us</a>
-        <a href="contact us.html">Contact Us</a>
-      </div>
+  <head>
+    <title>Moolah Contact</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <div class="navbar">
+      <div class="nav-links">
+        <div class="dropdown">
+          <a href="index.html" class="active">Home</a>
+          <div class="dropdown-content">
+            <a href="about.html">About Us</a>
+            <a href="contact us.html">Contact Us</a>
+          </div>
+        </div>
+        <a href="Money Owed.html">Track Splitter</a>
+        <a href="account.html">Login</a>
+      </div> 
     </div>
-    <a href="Money Owed.html">Track Splitter</a>
-    <a href="account.html">Login</a>
-  </div> 
-  </div>
-  </div>
-        <h1> Contact us here!</h1>
-         <form id ="contactForm">
-        <fieldset>
-    <legend>Personal Information:</legend>
-    First name:<br>
-    <input type="text" name="firstname" placeholder="Malini" required><br><br>
-    Last name:<br>
-    <input type="text" name="lastname" placeholder="Ayyappan" required><br><br>
-    Email:<br>
-    <input type="email" name="email" placeholder="hello@gmail.com" required><br><br>
-    Reason for Contacting:<br>
-    <textarea name="reason" rows="4" cols="50" placeholder="Enter your reason here..." required></textarea><br><br>
-    <input type="submit" value="Submit">
-  </fieldset>
-</form>
 
-<script>
-  document.getElementById("contactForm").addEventListener("submit", function(e) {
-    e.preventDefault();
+    <h1>Contact us here!</h1>
 
-    const formData = {
-      firstname: this.firstname.value,
-      lastname: this.lastname.value,
-      email: this.email.value,
-      reason: this.reason.value
-    }; 
+    <form id="contactForm">
+      <fieldset>
+        <legend>Personal Information:</legend>
+        First name:<br>
+        <input type="text" name="firstname" placeholder="Malini" required><br><br>
+        Last name:<br>
+        <input type="text" name="lastname" placeholder="Ayyappan" required><br><br>
+        Email:<br>
+        <input type="email" name="email" placeholder="hello@gmail.com" required><br><br>
+        Reason for Contacting:<br>
+        <textarea name="reason" rows="4" cols="50" placeholder="Enter your reason here..." required></textarea><br><br>
+        <input type="submit" value="Submit">
+      </fieldset>
+    </form>
 
-    fetch("http://localhost:3000/contact", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(formData)
-    })
-    .then(res => res.text())
-    .then(data => {
-      alert("✅ " + data);
-    })
-    .catch(err => {
-      console.error(err);
-      alert("❌ Something went wrong. Please try again.");
-    });
-  });
-</script>
-        <h2><i>Note from the creators!</i> </h2>
-        <p>Here at Moolah, we value our users and their feedback! If you have any questions, concerns, or suggestions, don’t hesitate to reach out — we’re always happy to hear from you.Your input helps us improve and build features that truly matter.Together, we can make managing split bills <i>simpler, smarter, and stress-free</i>.Thank you for being a part of the Moolah community!</p>
+    <script>
+      document.getElementById("contactForm").addEventListener("submit", function (e) {
+        e.preventDefault();
 
-    </body>
-</html> 
+        const formData = {
+          firstname: this.firstname.value,
+          lastname: this.lastname.value,
+          email: this.email.value,
+          reason: this.reason.value
+        };
+
+        fetch("http://localhost:3000/contact", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(formData)
+        })
+        .then(res => {
+          if (!res.ok) throw new Error("Failed to send");
+          return res.text();
+        })
+        .then(data => {
+          // Redirect to a thank you page after success
+          window.location.href = "thanks.html";
+        })
+        .catch(err => {
+          console.error(err);
+          alert("❌ Something went wrong. Please try again.");
+        });
+      });
+    </script>
+
+    <h2><i>Note from the creators!</i></h2>
+    <p>
+      Here at Moolah, we value our users and their feedback! If you have any questions, concerns, or suggestions, don’t hesitate to reach out — we’re always happy to hear from you.
+      Your input helps us improve and build features that truly matter. Together, we can make managing split bills 
+      <i>simpler, smarter, and stress-free</i>. Thank you for being a part of the Moolah community!
+    </p>
+  </body>
+</html>
