@@ -12,7 +12,6 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// Load existing users from file or start empty
 let users = [];
 if (fs.existsSync(USERS_FILE)) {
   const data = fs.readFileSync(USERS_FILE);
@@ -26,6 +25,8 @@ function saveUsersToFile() {
 
 app.post('/signup', (req, res) => {
   const { username, email, password } = req.body;
+
+  console.log("Signup data received:", { username, email, password });
 
   if (!username || !email || !password) {
     return res.status(400).json({ message: 'All fields are required.' });
