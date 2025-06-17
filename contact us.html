@@ -17,7 +17,7 @@
         <a href="Money Owed.html">Track Splitter</a>
         <a href="account.html">Login</a>
       </div> 
-    </div>
+    </div> 
 
     <h1>Contact us here!</h1>
 
@@ -58,8 +58,7 @@
           if (!res.ok) throw new Error("Failed to send");
           return res.text();
         })
-        .then(data => {
-          // Redirect to a thank you page after success
+        .then(data => { 
           window.location.href = "thanks.html";
         })
         .catch(err => {

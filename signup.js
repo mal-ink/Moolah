@@ -46,4 +46,4 @@ function getSignupFormErrors(username, email, password, repeatPassword){
     }
     
     return errors;
-}
+} 
