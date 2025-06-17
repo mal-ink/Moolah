@@ -25,7 +25,7 @@ git pull origin main --rebase (this is to pull from github)
       </div>
     </div>
     <a href="Money Owed.html">Track Splitter</a>
-    <a href="account.html">Login</a>
+<a href="account.html" id="login-link">Login</a>
   </div> 
   </div>
   </div>
@@ -35,5 +35,26 @@ git pull origin main --rebase (this is to pull from github)
   <h1>Welcome to <b><i>Moolah</i></b> – the home of all your money trackers!</h1> 
   <h2>Moolah is a web application that makes tracking and splitting bills with friends <i>simpler, smarter, and stress-free!</i></h2>
 </div>
+<script>
+  const user = localStorage.getItem('loggedInUser');
+  if (user) {
+    const navLinks = document.querySelector('.nav-links');
+    const loginLink = navLinks.querySelector('a[href="account.html"]');
+    if (loginLink) {
+      loginLink.textContent = user; 
+      loginLink.href = "about.html";  
+    }
+  }
+</script>
+<script>
+  const loggedInUser = localStorage.getItem('loggedInUser');
+  const loginLink = document.getElementById('login-link');
+
+  if (loggedInUser && loginLink) {
+    loginLink.textContent = loggedInUser;
+    loginLink.href = "#"; // optional: disable link if already logged in
+  }
+</script>
+
 </body>
 </html>

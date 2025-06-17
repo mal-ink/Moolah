@@ -18,7 +18,6 @@ if (fs.existsSync(USERS_FILE)) {
   users = JSON.parse(data);
 }
 
-// Save users to file
 function saveUsersToFile() {
   fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2));
 }

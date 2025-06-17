@@ -75,3 +75,53 @@ function getSignupFormErrors(username, email, password, repeatPassword) {
 
     return errors;
 }
+document.addEventListener('DOMContentLoaded', function () {
+  const form = document.getElementById('signup-form');
+  const username_input = document.getElementById('username-input');
+  const email_input = document.getElementById('email-input');
+  const password_input = document.getElementById('password-input');
+  const repeat_password_input = document.getElementById('repeat-password-input');
+  const error_message = document.getElementById('error-message');
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const errors = [];
+    if (!username_input.value) errors.push("Username cannot be empty");
+    if (!email_input.value) errors.push("Email cannot be empty");
+    if (!password_input.value) errors.push("Password cannot be empty");
+    if (password_input.value.length < 8) errors.push("Password must be at least 8 characters");
+    if (password_input.value !== repeat_password_input.value) errors.push("Passwords do not match");
+
+    if (errors.length > 0) {
+      error_message.innerText = errors.join(', ');
+      return;
+    }
+
+    // ✅ Fetch to backend
+    fetch('http://localhost:3000/signup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username: username_input.value,
+        email: email_input.value,
+        password: password_input.value,
+      }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.message === 'Signup successful!') {
+          localStorage.setItem('loggedInUser', username_input.value);
+          window.location.href = 'index.html';
+        } else {
+          error_message.innerText = data.message;
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        error_message.innerText = 'Something went wrong. Please try again.';
+      });
+  });
+});
