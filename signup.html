@@ -46,5 +46,59 @@
         </div>
         </form>
     </div>
+    <script>
+  const form = document.querySelector('form');
+  const username_input = document.getElementById('username-input');
+  const email_input = document.getElementById('email-input');
+  const password_input = document.getElementById('password-input');
+  const repeat_password_input = document.getElementById('repeat-password-input');
+  const error_message = document.getElementById('error-message');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const username = username_input.value.trim();
+    const email = email_input.value.trim();
+    const password = password_input.value.trim();
+    const repeatPassword = repeat_password_input.value.trim();
+
+    // Basic validation
+    const errors = [];
+    if (!username) errors.push("Username cannot be empty");
+    if (!email) errors.push("Email cannot be empty");
+    if (!password) errors.push("Password cannot be empty");
+    if (password.length < 8) errors.push("Password must be at least 8 characters");
+    if (password !== repeatPassword) errors.push("Passwords do not match");
+
+    if (errors.length > 0) {
+      error_message.innerText = errors.join(', ');
+      return;
+    }
+
+    try {
+      const response = await fetch('http://localhost:3000/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, email, password })
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        alert('Signup successful!');
+        localStorage.setItem('loggedInUser', username);
+        window.location.href = 'index.html';
+      } else {
+        error_message.innerText = result.message || 'Signup failed.';
+      }
+    } catch (error) {
+      console.error(error);
+      error_message.innerText = 'Something went wrong. Try again.';
+    }
+  });
+</script>
+
 </body> 
 </html>

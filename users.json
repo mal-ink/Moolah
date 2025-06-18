@@ -18,5 +18,10 @@
     "username": "hi",
     "email": "malini.ayyappan09@gmail.com",
     "password": "12345678"
+  },
+  {
+    "username": "hes",
+    "email": "hello@gmail.com",
+    "password": "33333333"
   }
 ]
