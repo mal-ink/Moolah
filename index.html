@@ -12,16 +12,15 @@ git pull origin main --rebase (this is to pull from github)
     <title> Moolah</title> 
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body> 
-  <div class="navbar">
+   <div class="navbar">
   <div class="nav-links">
     <div >
     <div class="dropdown">
-      <a href="index.html" class="active">Home</a>
+      <a href="index.html" >Home</a>
       <div class="dropdown-content">
-        <a href="about.html">About Us</a>
-        <a href="contact us.html">Contact Us</a> 
+        <a href="about.html" class="active">About Us</a>
+        <a href="contact us.html">Contact Us</a>
       </div>
     </div>
     <a href="Money Owed.html">Track Splitter</a>
@@ -52,7 +51,6 @@ git pull origin main --rebase (this is to pull from github)
 
   if (loggedInUser && loginLink) {
     loginLink.textContent = loggedInUser;
-    loginLink.href = "#"; // optional: disable link if already logged in
   }
 </script>
 

@@ -98,7 +98,6 @@ document.addEventListener('DOMContentLoaded', function () {
       return;
     }
 
-    // ✅ Fetch to backend
     fetch('http://localhost:3000/signup', {
       method: 'POST',
       headers: {
