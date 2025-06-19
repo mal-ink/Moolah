@@ -3,7 +3,7 @@ git commit -m "your message"
 git push origin main    ( this is to commit)
 
 git pull origin main --rebase (this is to pull from github)
-CHANGE ALL LOCALHOST 3000 TO something accessible by people not only on my laptop
+CHANGE ALL LOCALHOST 3000 TO something accessible by people not only on my laptop or else it wont work sorry 
 -->
 
 <!DOCTYPE html>
@@ -13,6 +13,7 @@ CHANGE ALL LOCALHOST 3000 TO something accessible by people not only on my lapto
     <link rel="stylesheet" href="style.css">
 </head>
 <body> 
+  <div class="navbar">
   <div class="nav-links">
   <div class="dropdown">
     <a href="index.html" class="active">Home</a>
@@ -24,7 +25,7 @@ CHANGE ALL LOCALHOST 3000 TO something accessible by people not only on my lapto
 
   <a href="Money Owed.html">Track Splitter</a>
 
-  <!-- This shows when logged in -->
+  <!-- This shows when you are logged in -->
   <div class="dropdown" id="user-dropdown" style="display: none;">
     <span id="nav-user" class="dropbtn" style="color: black; cursor: pointer;"></span>
     <div class="dropdown-content">
@@ -32,91 +33,40 @@ CHANGE ALL LOCALHOST 3000 TO something accessible by people not only on my lapto
     </div>
   </div>
 
-  <!-- This shows when logged out -->
+  <!-- This shows when you are logged out -->
   <a href="account.html" id="login-link" style="color: black;">Login</a>
 </div>
-
+</div>
 
   <div class="main-content">
   <img src="moo.png" alt="Moolah Logo" style="float:right; width:300px; height:300px;">
   <h1>Welcome to <b><i>Moolah</i></b> – the home of all your money trackers!</h1> 
-  <h2>Moolah is a web application that makes tracking and splitting bills with friends <i>simpler, smarter, and stress-free!</i></h2>
+  <h3>Moolah is a web application that makes tracking and splitting bills with friends <i>simpler, smarter, and stress-free!</i>
+    <br>If you aren't already, sign up or login to start on your journey with Moolah!!</h3>
 </div>
 
-<!-- code to display the user at the top and have a logout button that hopefully works-->
-<script>
-  const navUser = document.getElementById('nav-user');
-  const logoutBtn = document.getElementById('logout-button'); 
+<!-- code to display the user at the top and have a logout button-->
+ <script>
   const loggedInUser = localStorage.getItem('loggedInUser');
+  const navUser = document.getElementById('nav-user');
+  const userDropdown = document.getElementById('user-dropdown');
+  const loginLink = document.getElementById('login-link');
+  const logoutBtn = document.getElementById('logout-button');
 
-    if (loggedInUser) {
-     navUser.textContent = `${loggedInUser}`;
-    if (logoutBtn) logoutBtn.style.display = 'inline';
+  if (loggedInUser) {
+    navUser.textContent = ` ${loggedInUser}`;
+    userDropdown.style.display = 'inline-block';
+    loginLink.style.display = 'none';
 
-     if (logoutBtn) {
-      logoutBtn.addEventListener('click', () => {
-        localStorage.removeItem('loggedInUser');
-        window.location.reload();
-      });
-    }
-      } else {
-    navUser.innerHTML = `<a href="account.html" id="login-link">Login</a>`;
-    if (logoutBtn) logoutBtn.style.display = 'none';
+    logoutBtn.addEventListener('click', () => {
+      localStorage.removeItem('loggedInUser');
+      window.location.reload();
+    });
+  } else {
+    userDropdown.style.display = 'none';
+    loginLink.style.display = 'inline-block';
   }
-  </script>
+</script>
+
 </body>
 </html> 
-
-<!--<!DOCTYPE html>
-<html>
-<head>
-    <title> Moolah</title> 
-    <link rel="stylesheet" href="style.css">
-</head>
-<body> 
-   <div class="navbar">
-  <div class="nav-links">
-    <div >
-    <div class="dropdown">
-      <a href="index.html"  class="active">Home</a>
-      <div class="dropdown-content">
-        <a href="about.html" class="active">About Us</a>
-        <a href="contact us.html">Contact Us</a>
-      </div>
-    </div>
-    <a href="Money Owed.html">Track Splitter</a>
-<span id="nav-user" style=" color: black;"></span>
-<div class="dropdown-content">
-<button id="logout-button" style="display:none;">Logout</button></div>
-  </div> 
-  </div>
-  </div>
-  <div class="main-content">
-  <img src="moo.png" alt="Moolah Logo" style="float:right; width:300px; height:300px;">
-  <h1>Welcome to <b><i>Moolah</i></b> – the home of all your money trackers!</h1> 
-  <h2>Moolah is a web application that makes tracking and splitting bills with friends <i>simpler, smarter, and stress-free!</i></h2>
-</div>
-
- code to display the user at the top and have a logout button that hopefully works
-<script>
-  const navUser = document.getElementById('nav-user');
-  const logoutBtn = document.getElementById('logout-button'); 
-  const loggedInUser = localStorage.getItem('loggedInUser');
-
-    if (loggedInUser) {
-     navUser.textContent = Welcome, ${loggedInUser};
-    if (logoutBtn) logoutBtn.style.display = 'inline';
-
-     if (logoutBtn) {
-      logoutBtn.addEventListener('click', () => {
-        localStorage.removeItem('loggedInUser');
-        window.location.reload();
-      });
-    }
-      } else {
-    navUser.innerHTML = <a href="account.html" id="login-link">Login</a>;
-    if (logoutBtn) logoutBtn.style.display = 'none';
-  }
-  </script>
-</body>
-</html> -->

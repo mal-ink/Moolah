@@ -2,6 +2,7 @@
 <head>
   <title>Login Portal</title>
   <link rel="stylesheet" href="style.css">
+     <script type="text/javascript" src="signup.js" defer></script>
 </head>
 <body class="signup-page">
     <div class="navbar">
@@ -11,11 +12,8 @@
 </div>
     <div class="wrapper">
       <h2>Login</h2>
+      <p id="error-message"></p>
         <form id="loginForm">
-    <!--<input type="email" id="Email" placeholder="hello@moolah.com" required><br><br>
-    <input type="text" id="username" placeholder="Username" required><br><br>
-    <input type="password" id="password" placeholder="Password" required><br><br>
-    <button type="submit">Login</button>-->
             <div>
                 <label for="email-input">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f"><path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v480q0 33-23.5 56.5T800-160H160Zm320-280L160-640v400h640v-400L480-440Zm0-80 320-200H160l320 200ZM160-640v-80 480-400Z"/></svg>    
@@ -31,8 +29,43 @@
             <button type="submit" id="login-button">Login</button>
   </form>
   <p>No account? <a href="signup.html">Sign up!</a></p>
-</div>
+</div>i sweat to holy god whoever please why is this not working
   <div id="welcome">
   </div>
+  <script>
+const form = document.querySelector('form');
+const emailInput = document.getElementById('email');
+const passwordInput = document.getElementById('password');
+const errorMessage = document.getElementById('error-message');
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const email = emailInput.value.trim();
+  const password = passwordInput.value.trim();
+
+  try {
+    const response = await fetch('http://localhost:3000/login', { // for some reason i think this doesnt work but*come back to this*
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password }),
+    });
+
+    const result = await response.json();
+
+    if (response.ok) {
+      localStorage.setItem('loggedInUser', result.username); // store username
+      window.location.href = 'index.html';
+    } else {
+      errorMessage.textContent = result.message || 'Login failed.';
+    }
+  } catch (err) {
+    console.error(err);
+    errorMessage.textContent = 'Something went wrong. Try again later.';
+  }
+});
+</script>
 </body>
 </html>

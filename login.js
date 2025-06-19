@@ -43,6 +43,24 @@ app.post('/signup', (req, res) => {
   res.status(200).json({ message: 'Signup successful!' });
 });
 
+app.post('/login', (req, res) => {
+  const { email, password } = req.body;
+
+  console.log("Login attempt:", { email, password });
+
+  if (!email || !password) {
+    return res.status(400).json({ message: 'Email and password are required.' });
+  }
+
+  const user = users.find(user => user.email === email && user.password === password);
+  if (!user) {
+    return res.status(401).json({ message: 'Invalid email or password.' });
+  }
+
+  // If credentials are valid, return username okayitisntfreakingworkingimfreakinggonnajump idk
+  res.status(200).json({ message: 'Login successful!', username: user.username });
+});
+
 app.listen(PORT, () => {
   console.log(`✅ Server running at http://localhost:${PORT}`);
 });
