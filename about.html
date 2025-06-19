@@ -4,23 +4,30 @@
     <link rel="stylesheet" href="style.css">
     </head>
     <body>
-
-       <div class="navbar">
+   <div class="navbar">
   <div class="nav-links">
-    <div >
-    <div class="dropdown">
-      <a href="index.html" >Home</a>
-      <div class="dropdown-content">
-        <a href="about.html" class="active">About Us</a>
-        <a href="contact us.html">Contact Us</a>
-      </div>
+  <div class="dropdown">
+    <a href="index.html" class="active">Home</a>
+    <div class="dropdown-content">
+      <a href="about.html">About Us</a>
+      <a href="contact us.html">Contact Us</a>
     </div>
-    <a href="Money Owed.html">Track Splitter</a>
-    <a href="account.html">Login</a>
-  </div> 
   </div>
+
+  <a href="Money Owed.html">Track Splitter</a> 
+  <!-- This shows when you are logged in -->
+  <div class="dropdown" id="user-dropdown" style="display: none;">
+    <span id="nav-user" class="dropbtn" style="color: black; cursor: pointer;"></span>
+    <div class="dropdown-content">
+      <button id="logout-button">Logout</button>
+    </div>
   </div>
-    <h1>About Moolah!</h1>
+
+  <!-- This shows when you are logged out -->
+  <a href="account.html" id="login-link" style="color: black;">Login</a>
+</div>
+</div> 
+        <h1>About Moolah!</h1>
     <p> Moolah is the tool you turn to when you suddenly realize... "oh no!! I forgot to pay them back! I completely forgot how much i owed them. I shouldve kept track of how we split the bill when it happened!"
         <br>
         Well now, with Moolah, you will never have to worry about forgetting again! You can easily log your expenses, track who owes you money, and settle up with friends in the blink of an eye. No more awkward conversations or forgotten debts!
@@ -30,5 +37,27 @@
     <p>Hi! I'm Malini, the creator of Moolah. I built this app to help people like you keep track of their expenses and make managing money with friends a breeze. 
         This whole creation came up because I often don't have money on me, I hope you find it as useful as I do! if there are any bugs, feel free to email me at
          malini.ayyappan09@gmail.com or message me on slack - my user is Malini Ayyappan! :)<br> below are just some photos of the app in creation(and me crashing out a whole bunch)</p>
-        </body>
+   <!-- code to display the user at the top and have a logout button-->
+ <script>
+  const loggedInUser = localStorage.getItem('loggedInUser');
+  const navUser = document.getElementById('nav-user');
+  const userDropdown = document.getElementById('user-dropdown');
+  const loginLink = document.getElementById('login-link');
+  const logoutBtn = document.getElementById('logout-button');
+
+  if (loggedInUser) {
+    navUser.textContent = ` ${loggedInUser}`;
+    userDropdown.style.display = 'inline-block';
+    loginLink.style.display = 'none';
+
+    logoutBtn.addEventListener('click', () => {
+      localStorage.removeItem('loggedInUser');
+      window.location.reload();
+    });
+  } else {
+    userDropdown.style.display = 'none';
+    loginLink.style.display = 'inline-block';
+  }
+</script> 
+   </body>
 </html>

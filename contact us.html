@@ -5,19 +5,29 @@
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
-    <div class="navbar">
-      <div class="nav-links">
-        <div class="dropdown">
-          <a href="index.html" class="active">Home</a>
-          <div class="dropdown-content">
-            <a href="about.html">About Us</a>
-            <a href="contact us.html">Contact Us</a>
-          </div>
-        </div>
-        <a href="Money Owed.html">Track Splitter</a>
-        <a href="account.html">Login</a>
-      </div> 
-    </div> 
+       <div class="navbar">
+  <div class="nav-links">
+  <div class="dropdown">
+    <a href="index.html" class="active">Home</a>
+    <div class="dropdown-content">
+      <a href="about.html">About Us</a>
+      <a href="contact us.html">Contact Us</a>
+    </div>
+  </div>
+
+  <a href="Money Owed.html">Track Splitter</a> 
+  <!-- This shows when you are logged in -->
+  <div class="dropdown" id="user-dropdown" style="display: none;">
+    <span id="nav-user" class="dropbtn" style="color: black; cursor: pointer;"></span>
+    <div class="dropdown-content">
+      <button id="logout-button">Logout</button>
+    </div>
+  </div>
+
+  <!-- This shows when you are logged out -->
+  <a href="account.html" id="login-link" style="color: black;">Login</a>
+</div>
+</div>
 
     <h1>Contact us here!</h1>
 
@@ -74,5 +84,27 @@
       Your input helps us improve and build features that truly matter. Together, we can make managing split bills 
       <i>simpler, smarter, and stress-free</i>. Thank you for being a part of the Moolah community!
     </p>
+    <!-- code to display the user at the top and have a logout button-->
+ <script>
+  const loggedInUser = localStorage.getItem('loggedInUser');
+  const navUser = document.getElementById('nav-user');
+  const userDropdown = document.getElementById('user-dropdown');
+  const loginLink = document.getElementById('login-link');
+  const logoutBtn = document.getElementById('logout-button');
+
+  if (loggedInUser) {
+    navUser.textContent = ` ${loggedInUser}`;
+    userDropdown.style.display = 'inline-block';
+    loginLink.style.display = 'none';
+
+    logoutBtn.addEventListener('click', () => {
+      localStorage.removeItem('loggedInUser');
+      window.location.reload();
+    });
+  } else {
+    userDropdown.style.display = 'none';
+    loginLink.style.display = 'inline-block';
+  }
+</script>
   </body>
 </html>
