@@ -1,3 +1,4 @@
+//this is all still frontend i think but some of it get s overriden byt the other frontend code?? i think i have repeats
 document.addEventListener('DOMContentLoaded', function () {
   const form = document.getElementById('signup-form');
   const username_input = document.getElementById('username-input');
