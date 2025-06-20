@@ -1,6 +1,6 @@
 <!--frontend kinda works what do we need to do
-       - entries need to be displayed
-        - form needs to be able to submit and save entries
+       - entry display needs to be cuter + matchting with the add entry button
+        - 
   backend
       - needs to be saved per account 
       - need to be able to save entries and retrieve every time user logs in
@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <!-- Navbar -->
   <div class="navbar">
     <div class="nav-links">
       <div class="dropdown">
@@ -33,40 +34,23 @@
     </div>
   </div>
 
-  <p style="color:rgb(4, 58, 4)">Log all expenses you need to remember! Whether it's paying your friend back for splitting a bill or just a reminder to pay your credit card bill, put it here!</p>
-
-  <!-- Show logged in user + logout -->
-  <script>
-    const loggedInUser = localStorage.getItem('loggedInUser');
-    const navUser = document.getElementById('nav-user');
-    const userDropdown = document.getElementById('user-dropdown');
-    const loginLink = document.getElementById('login-link');
-    const logoutBtn = document.getElementById('logout-button');
-
-    if (loggedInUser) {
-      navUser.textContent = ` ${loggedInUser}`;
-      userDropdown.style.display = 'inline-block';
-      loginLink.style.display = 'none';
-      logoutBtn.addEventListener('click', () => {
-        localStorage.removeItem('loggedInUser');
-        window.location.reload();
-      });
-    } else {
-      userDropdown.style.display = 'none';
-      loginLink.style.display = 'inline-block';
-    }
-  </script>
-
-  <!--  Entry Cards Container -->
+  <!-- Description -->
+  <p style="color:rgb(4, 58, 4)">
+    Log all expenses you need to remember! Whether it's paying your friend back for splitting a bill or a coworker who owes you for that morning coffee, put it all here!!
+  </p>
+<hr> 
+  <!-- Entry Cards Container -->
   <div id="entry-list">
+    <!-- Add Entry Card -->
     <div class="add-entry-card" onclick="openEntryForm()">
-      <p class="card__plus">+</p>
-      <p class="card__title">Add Entry</p>
-    </div>
+      <img src="Background .PNG" alt="Card background">
+      <div class="overlay-text">
+        <p class="card__plus">+</p>
+        <p class="card__title">Add Entry</p>
+      </div>
+    </div>  
   </div>
-
-  <!--  Modal Form -->
-  <div id="entry-form-modal">
+  <div id="entry-form-modal" style="display: none;">
     <div class="entry-form-content">
       <span class="close-modal" onclick="closeEntryForm()">✖</span>
       <h2>New Expense Entry</h2>
@@ -86,18 +70,39 @@
         <button type="submit">Add Entry</button>
       </form>
     </div>
-  </div>
+  </div>  
 
-  <!-- 🧠 Scripts -->
+<!-- bro i acutally swear why is like 3 out of 5 minute being counted but u been so outta touch!-->
+  <!-- js frontend stuff from here -->
   <script>
+    // username stuff for navbar 
+    const loggedInUser = localStorage.getItem('loggedInUser');
+    const navUser = document.getElementById('nav-user');
+    const userDropdown = document.getElementById('user-dropdown');
+    const loginLink = document.getElementById('login-link');
+    const logoutBtn = document.getElementById('logout-button');
+
+    if (loggedInUser) {
+      navUser.textContent = ` ${loggedInUser}`;
+      userDropdown.style.display = 'inline-block';
+      loginLink.style.display = 'none';
+      logoutBtn.addEventListener('click', () => {
+        localStorage.removeItem('loggedInUser');
+        window.location.reload();
+      });
+    } else {
+      userDropdown.style.display = 'none';
+      loginLink.style.display = 'inline-block';
+    }
+
     function openEntryForm() {
       document.getElementById('entry-form-modal').style.display = 'flex';
     }
-
     function closeEntryForm() {
       document.getElementById('entry-form-modal').style.display = 'none';
     }
 
+    // Entry form submission
     const form = document.getElementById('entryForm');
     const entryList = document.getElementById('entry-list');
 
@@ -120,6 +125,7 @@
         </div>
       `;
 
+      // Add before the add-entry card
       entryList.insertBefore(entryCard, entryList.querySelector('.add-entry-card'));
 
       form.reset();
@@ -127,4 +133,4 @@
     });
   </script>
 </body>
-</html>
+</html>  

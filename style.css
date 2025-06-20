@@ -217,20 +217,45 @@ form button:focus {
 /* The always-visible + add entry card */
 .add-entry-card {
   width: 250px;
-  height: 200px;
+  height: 280px;
   background-color: white;
   border: 2px solid #0d5037;
   border-radius: 10px;
   margin: 20px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  position: relative;
+  overflow: hidden;
   cursor: pointer;
   transition: transform 0.2s ease;
-  z-index: 1;
+  /*position: fixed; - this makes it stick to the to the left side but for some reason other things go overtop of it*/
 }
+/* i cant freaking find it i just want it to stick to the left side please*/
+.add-entry-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.add-entry-card .overlay-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #0d5037;
+  font-weight: bold;
+  text-align: center;
+  z-index: 2;
+}
+
+.add-entry-card .overlay-text .card__plus {
+  font-size: 36px;
+  margin-bottom: 5px;
+}
+
+.add-entry-card .overlay-text .card__title {
+  font-size: 18px;
+}
+
 
 .add-entry-card:hover {
   transform: scale(1.03);
@@ -326,11 +351,10 @@ form button:focus {
   gap: 20px;
   padding: 30px;
 }
-
-/* Style for each new expense card */
+/* Style for each new expense card okay why is it nactually not countin im going to kill my self1!!!!!! */
 .entry-card {
-  width: 250px;
-  height: 140px;
+  width: 225px;
+  height: 260px;
   background-color: #f7fff7;
   border: 2px solid #0d5037;
   border-radius: 10px;
