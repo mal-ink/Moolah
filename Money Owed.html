@@ -1,130 +1,130 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Money Owed</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-   <div class="navbar">
-  <div class="nav-links">
-  <div class="dropdown">
-    <a href="index.html" >Home</a>
-    <div class="dropdown-content">
-      <a href="about.html">About Us</a>
-      <a href="contact us.html">Contact Us</a>
-    </div>
-  </div>
-
-  <a href="Money Owed.html" class="active">Balances</a> 
-  <!-- This shows when you are logged in -->
-  <div class="dropdown" id="user-dropdown" style="display: none;">
-    <span id="nav-user" class="dropbtn" style="color: black; cursor: pointer;"></span>
-    <div class="dropdown-content">
-      <button style= "background-color: transparent; color: rgb(255, 255, 255);" id="logout-button">Logout</button>
-    </div>
-  </div>
-
-  <!-- This shows when you are logged out -->
-  <a href="account.html" id="login-link" style="color: black;">Login</a>
-</div>
-</div> 
-    <p style="color:rgb(4, 58, 4)">Log all expenses you need to remember! Whether its paying your friend back for splitting a bill or just a reminder to pay your credit card bill, put it here!</p>
-    <p style="color:rgb(4, 58, 4)">Below, log anything that you need to get paid back for! You can also put in the emails of the other contributers who need to pay you back, and we will email them every once in a while until they pay you back!!</p>
-<!-- code to display the user at the top and have a logout button-->
- <script>
-  const loggedInUser = localStorage.getItem('loggedInUser');
-  const navUser = document.getElementById('nav-user');
-  const userDropdown = document.getElementById('user-dropdown');
-  const loginLink = document.getElementById('login-link');
-  const logoutBtn = document.getElementById('logout-button');
-
-  if (loggedInUser) {
-    navUser.textContent = ` ${loggedInUser}`;
-    userDropdown.style.display = 'inline-block';
-    loginLink.style.display = 'none';
-
-    logoutBtn.addEventListener('click', () => {
-      localStorage.removeItem('loggedInUser');
-      window.location.reload();
-    });
-  } else {
-    userDropdown.style.display = 'none';
-    loginLink.style.display = 'inline-block';
-  }
-</script>  
-
 <!--frontend kinda works what do we need to do
        - entries need to be displayed
         - form needs to be able to submit and save entries
   backend
       - needs to be saved per account 
       - need to be able to save entries and retrieve every time user logs in
-      - need to be able to email the contributors
+      - need to be able to email the contributors if they want to (this means we need another button or something in frontend)
 -->
-<div class="add-entry-card" onclick="toggleEntryForm()">
-  <div class="card__plus">➕</div>
-  <div class="card__title">Add Entry</div>
-</div>
-<!-- Fullscreen form modal -->
-<div id="entry-form-modal">
-  <div class="entry-form-content">
-    <span class="close-modal" onclick="toggleEntryForm()">✖</span>
-    <h2>New Expense Entry</h2>
-    <form id="expense-form">
-      <label for="title">Title</label>
-      <input type="text" id="title" name="title" required>
-
-      <label for="amount">Amount</label>
-      <input type="number" id="amount" name="amount" required>
-
-      <label for="contributors">Contributors' Emails (comma separated)</label>
-      <textarea id="contributors" name="contributors" rows="2"></textarea>
-
-      <label for="notes">Notes</label>
-      <textarea id="notes" name="notes" rows="3"></textarea>
-
-      <button type="submit">Add Entry</button>
-    </form>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Money Owed</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="navbar">
+    <div class="nav-links">
+      <div class="dropdown">
+        <a href="index.html">Home</a>
+        <div class="dropdown-content">
+          <a href="about.html">About Us</a>
+          <a href="contact us.html">Contact Us</a>
+        </div>
+      </div>
+      <a href="Money Owed.html" class="active">Balances</a>
+      <div class="dropdown" id="user-dropdown" style="display: none;">
+        <span id="nav-user" class="dropbtn" style="color: black; cursor: pointer;"></span>
+        <div class="dropdown">
+          <button class="logout-button" id="logout-button">Logout</button>
+        </div>
+      </div>
+      <a href="account.html" id="login-link" style="color: black;">Login</a>
+    </div>
   </div>
-</div>
 
-<!-- Fullscreen form to ener stff -->
-<div id="entry-form-modal">
-  <div class="entry-form-content">
-    <span class="close-modal" onclick="toggleEntryForm()">✖</span>
-    <h2>New Expense Entry</h2>
-    <form id="expense-form">
-      <label for="title">Title</label>
-      <input type="text" id="title" name="title" required>
+  <p style="color:rgb(4, 58, 4)">Log all expenses you need to remember! Whether it's paying your friend back for splitting a bill or just a reminder to pay your credit card bill, put it here!</p>
 
-      <label for="amount">Amount</label>
-      <input type="number" id="amount" name="amount" required>
-
-      <label for="contributors">Contributors' Emails </label>
-      <textarea id="contributors" name="contributors" rows="2" required></textarea>
-
-      <label for="notes">Notes</label>
-      <textarea id="notes" name="notes" rows="3"></textarea>
-      <button type="submit">Add Entry</button>
-    </form>
-  </div>
-</div>
-<div id="entries-container">
-
+  <!-- Show logged in user + logout -->
   <script>
-  function toggleEntryForm() {
-    const modal = document.getElementById('entry-form-modal');
-    modal.style.display = (modal.style.display === 'flex') ? 'none' : 'flex';
-  }
+    const loggedInUser = localStorage.getItem('loggedInUser');
+    const navUser = document.getElementById('nav-user');
+    const userDropdown = document.getElementById('user-dropdown');
+    const loginLink = document.getElementById('login-link');
+    const logoutBtn = document.getElementById('logout-button');
 
-  // Optional: handle form submission
-  document.getElementById('expense-form').addEventListener('submit', function(e) {
-    e.preventDefault();
-    alert("Entry submitted!");
-    toggleEntryForm();
-    this.reset(); // clear form need to make it stay
-  });
-</script>
-</div>
-  </body>
-</html> 
+    if (loggedInUser) {
+      navUser.textContent = ` ${loggedInUser}`;
+      userDropdown.style.display = 'inline-block';
+      loginLink.style.display = 'none';
+      logoutBtn.addEventListener('click', () => {
+        localStorage.removeItem('loggedInUser');
+        window.location.reload();
+      });
+    } else {
+      userDropdown.style.display = 'none';
+      loginLink.style.display = 'inline-block';
+    }
+  </script>
+
+  <!--  Entry Cards Container -->
+  <div id="entry-list">
+    <div class="add-entry-card" onclick="openEntryForm()">
+      <p class="card__plus">+</p>
+      <p class="card__title">Add Entry</p>
+    </div>
+  </div>
+
+  <!--  Modal Form -->
+  <div id="entry-form-modal">
+    <div class="entry-form-content">
+      <span class="close-modal" onclick="closeEntryForm()">✖</span>
+      <h2>New Expense Entry</h2>
+      <form id="entryForm">
+        <label for="entryTitle">Title</label>
+        <input type="text" id="entryTitle" name="title" required>
+
+        <label for="entryAmount">Amount</label>
+        <input type="number" id="entryAmount" name="amount" required>
+
+        <label for="entryContributors">Contributors' Emails</label>
+        <textarea id="entryContributors" name="contributors" rows="2" placeholder="Enter emails separated by commas or new lines" required></textarea>
+
+        <label for="entryDescription">Notes</label>
+        <textarea id="entryDescription" name="notes" rows="3"></textarea>
+
+        <button type="submit">Add Entry</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 🧠 Scripts -->
+  <script>
+    function openEntryForm() {
+      document.getElementById('entry-form-modal').style.display = 'flex';
+    }
+
+    function closeEntryForm() {
+      document.getElementById('entry-form-modal').style.display = 'none';
+    }
+
+    const form = document.getElementById('entryForm');
+    const entryList = document.getElementById('entry-list');
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const title = document.getElementById('entryTitle').value.trim();
+      const amount = document.getElementById('entryAmount').value.trim();
+      const contributors = document.getElementById('entryContributors').value.trim();
+      const description = document.getElementById('entryDescription').value.trim();
+
+      const entryCard = document.createElement('div');
+      entryCard.classList.add('entry-card');
+
+      entryCard.innerHTML = `
+        <strong>${title}</strong><br>$${amount}
+        <div class="entry-details">
+          <p><strong>Notes:</strong> ${description || "None"}</p>
+          <p><strong>Contributors:</strong><br>${contributors.replace(/\n/g, '<br>').replace(/, ?/g, '<br>')}</p>
+        </div>
+      `;
+
+      entryList.insertBefore(entryCard, entryList.querySelector('.add-entry-card'));
+
+      form.reset();
+      closeEntryForm();
+    });
+  </script>
+</body>
+</html>

@@ -10,7 +10,9 @@ CHANGE ALL LOCALHOST 3000 TO something accessible by people not only on my lapto
 <html>
 
 <!-- TO DO INDEX!!!::
-        -  have 
+        -  FIX LOGOUT BUTTON PLS
+        - show balance only when logged in
+        - make sure the dropdown works
 -->
 <head>
     <title> Moolah</title> 
@@ -26,12 +28,12 @@ CHANGE ALL LOCALHOST 3000 TO something accessible by people not only on my lapto
       <a href="contact us.html">Contact Us</a>
     </div>
   </div>
-  <a href="Money Owed.html">Balances</a>
+      <a href="Money Owed.html">Balances</a>
     <!-- This shows when you are logged in -->
   <div class="dropdown" id="user-dropdown" style="display: none;">
     <span id="nav-user" class="dropbtn" style="color: black; cursor: pointer;"></span>
     <div class="dropdown-content">
-      <button style= "background-color: transparent; color: rgb(255, 255, 255);" id="logout-button">Logout</button>
+      <button class="logout-button" id="logout-button">Logout</button>
     </div>
   </div>
   <!-- This shows when you are logged out -->

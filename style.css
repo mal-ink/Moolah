@@ -44,6 +44,7 @@ body {
 .dropdown {
   position: relative;
   display: inline-block;
+  flex-direction: column;
 }
 
 .dropdown-content {
@@ -71,6 +72,17 @@ body {
 
 .dropdown:hover .dropdown-content {
   display: flex;
+}
+
+.logout-button {
+  background-color: #0d5037;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  position:relative;
+  z-index: 1000;
 }
 
 .main-content {
@@ -305,4 +317,45 @@ form button:focus {
 }
 .close-modal:hover {
   color: #333;
+}
+
+/* Container for all entry cards */
+#entry-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 30px;
+}
+
+/* Style for each new expense card */
+.entry-card {
+  width: 250px;
+  height: 140px;
+  background-color: #f7fff7;
+  border: 2px solid #0d5037;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  position: relative;
+  padding: 20px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.entry-card:hover {
+  transform: scale(1.03);
+}
+
+/* Initially hidden details */
+.entry-details {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  font-size: 14px;
+  color: #333;
+  margin-top: 10px;
+}
+
+/* Show details on hover */
+.entry-card:hover .entry-details {
+  opacity: 1;
 }
