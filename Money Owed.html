@@ -8,19 +8,19 @@
    <div class="navbar">
   <div class="nav-links">
   <div class="dropdown">
-    <a href="index.html" class="active">Home</a>
+    <a href="index.html" >Home</a>
     <div class="dropdown-content">
       <a href="about.html">About Us</a>
       <a href="contact us.html">Contact Us</a>
     </div>
   </div>
 
-  <a href="Money Owed.html">Track Splitter</a> 
+  <a href="Money Owed.html" class="active">Balances</a> 
   <!-- This shows when you are logged in -->
   <div class="dropdown" id="user-dropdown" style="display: none;">
     <span id="nav-user" class="dropbtn" style="color: black; cursor: pointer;"></span>
     <div class="dropdown-content">
-      <button id="logout-button">Logout</button>
+      <button style= "background-color: transparent; color: rgb(255, 255, 255);" id="logout-button">Logout</button>
     </div>
   </div>
 
@@ -52,55 +52,79 @@
     loginLink.style.display = 'inline-block';
   }
 </script>  
-<!-- copilot gave me this its lowk kinda cool tbh but defi needs to be worked on - also this is just frontend like if you reload it all goes away 
-    <div class="main-content">
-      <h2>Track Your Expenses</h2>
-      <button id="add-entry-button">Add New Entry</button>
-      <div id="entries-container">
-      </div>
-    </div>
 
-    <script>
-      document.getElementById('add-entry-button').addEventListener('click', () => {
-        const entry = prompt("Enter your expense details (e.g., 'Paid $20 for lunch with Sarah')");
-        if (entry) {
-          const entryDiv = document.createElement('div');
-          entryDiv.className = 'entry';
-          entryDiv.textContent = entry;
-          document.getElementById('entries-container').appendChild(entryDiv);
-        }
-      });
-    </script>  -->
-<!--okay now what we need to do on this page is basically make the floaty card things like i did in the assignement 
-but make it so that if you click on them you can enter details and there also needs to be an add new entry button  -->
+<!--frontend kinda works what do we need to do
+       - entries need to be displayed
+        - form needs to be able to submit and save entries
+  backend
+      - needs to be saved per account 
+      - need to be able to save entries and retrieve every time user logs in
+      - need to be able to email the contributors
+-->
+<div class="add-entry-card" onclick="toggleEntryForm()">
+  <div class="card__plus">➕</div>
+  <div class="card__title">Add Entry</div>
+</div>
+<!-- Fullscreen form modal -->
+<div id="entry-form-modal">
+  <div class="entry-form-content">
+    <span class="close-modal" onclick="toggleEntryForm()">✖</span>
+    <h2>New Expense Entry</h2>
+    <form id="expense-form">
+      <label for="title">Title</label>
+      <input type="text" id="title" name="title" required>
 
-<!-- okay this is the code from my past website - linked to the css stuff already-->
-<div class="card">
-              <img src="paris.jpeg" alt="Card Image" class="card__image">
-              <div class="card__content">
-                <p class="card__title">Paris</p>
-                <p class="card__description">The capitol of France, and a beautiful place to visit year round!</p>
-                <p class="card__description"> Sightseeing spots: Eiffel Tower, Louvre, Arc de Triomphe, Seine River, and more!</p>
-                <p class="card__description"><a href="https://www.tripadvisor.ca/Attractions-g187147-Activities-Paris_Ile_de_France.html">Click here for more information!</a></p>
-              </div>
-            </div>
-    
-            <div class="card">
-              <img src="lyon.jpg" alt="Card Image" class="card__image">
-              <div class="card__content">
-                <p class="card__title"> Lyon</p>
-                <p class="card__description">A city located in teh junction of two rivers, known for its outstanding cuisine and architecture!</p>
-                <p class="card__description"> Sightseeing spots: Théâtres Romains de Fourvière,  historic Vieux Lyon, and more!</p>
-                <p class="card__description"><a href="https://www.tripadvisor.ca/Tourism-g187265-Lyon_Rhone_Auvergne_Rhone_Alpes-Vacations.html">Click here for more information!</a></p>
-              </div>
-            </div>
-    
-            <div class="card">
-              <img src="ver.jpg" alt="Card Image" class="card__image">
-              <div class="card__content">
-                <p id="event"class="card__title"></p>
-                <p class="card__description"></p>
-                <p class="card__description"> Sightseeing spots: Palace of Versailles,  Hall of Mirrors, and more!</p>
-              </div>
+      <label for="amount">Amount</label>
+      <input type="number" id="amount" name="amount" required>
+
+      <label for="contributors">Contributors' Emails (comma separated)</label>
+      <textarea id="contributors" name="contributors" rows="2"></textarea>
+
+      <label for="notes">Notes</label>
+      <textarea id="notes" name="notes" rows="3"></textarea>
+
+      <button type="submit">Add Entry</button>
+    </form>
+  </div>
+</div>
+
+<!-- Fullscreen form to ener stff -->
+<div id="entry-form-modal">
+  <div class="entry-form-content">
+    <span class="close-modal" onclick="toggleEntryForm()">✖</span>
+    <h2>New Expense Entry</h2>
+    <form id="expense-form">
+      <label for="title">Title</label>
+      <input type="text" id="title" name="title" required>
+
+      <label for="amount">Amount</label>
+      <input type="number" id="amount" name="amount" required>
+
+      <label for="contributors">Contributors' Emails </label>
+      <textarea id="contributors" name="contributors" rows="2" required></textarea>
+
+      <label for="notes">Notes</label>
+      <textarea id="notes" name="notes" rows="3"></textarea>
+      <button type="submit">Add Entry</button>
+    </form>
+  </div>
+</div>
+<div id="entries-container">
+
+  <script>
+  function toggleEntryForm() {
+    const modal = document.getElementById('entry-form-modal');
+    modal.style.display = (modal.style.display === 'flex') ? 'none' : 'flex';
+  }
+
+  // Optional: handle form submission
+  document.getElementById('expense-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    alert("Entry submitted!");
+    toggleEntryForm();
+    this.reset(); // clear form need to make it stay
+  });
+</script>
+</div>
   </body>
 </html> 
