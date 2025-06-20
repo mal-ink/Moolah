@@ -27,9 +27,9 @@
   <!-- This shows when you are logged out -->
   <a href="account.html" id="login-link" style="color: black;">Login</a>
 </div>
-</div>
-    <h1 style="color:rgb(4, 58, 4)">Log all expenses you need to remember! Whether its paying your friend back for splitting a bill or just a reminder to pay your credit card bill, put it here!</h1>
-    <h1 style="color:rgb(4, 58, 4)">Below, log anything that you need to get paid back for! You can also put in the emails of the other contributers who need to pay you back, and we will email them every once in a while until they pay you back!!</h1>
+</div> 
+    <p style="color:rgb(4, 58, 4)">Log all expenses you need to remember! Whether its paying your friend back for splitting a bill or just a reminder to pay your credit card bill, put it here!</p>
+    <p style="color:rgb(4, 58, 4)">Below, log anything that you need to get paid back for! You can also put in the emails of the other contributers who need to pay you back, and we will email them every once in a while until they pay you back!!</p>
 <!-- code to display the user at the top and have a logout button-->
  <script>
   const loggedInUser = localStorage.getItem('loggedInUser');
@@ -52,7 +52,7 @@
     loginLink.style.display = 'inline-block';
   }
 </script>  
-<!-- copilot gave me this its lowk kinda cool tbh but defi needs to be worked on - also this is just frontend like if you reload it all goes away
+<!-- copilot gave me this its lowk kinda cool tbh but defi needs to be worked on - also this is just frontend like if you reload it all goes away 
     <div class="main-content">
       <h2>Track Your Expenses</h2>
       <button id="add-entry-button">Add New Entry</button>
@@ -62,7 +62,7 @@
 
     <script>
       document.getElementById('add-entry-button').addEventListener('click', () => {
-        const entry = prompt("Enter your expense details (e.g., 'Paid $20 for lunch with John')");
+        const entry = prompt("Enter your expense details (e.g., 'Paid $20 for lunch with Sarah')");
         if (entry) {
           const entryDiv = document.createElement('div');
           entryDiv.className = 'entry';
@@ -74,11 +74,11 @@
 <!--okay now what we need to do on this page is basically make the floaty card things like i did in the assignement 
 but make it so that if you click on them you can enter details and there also needs to be an add new entry button  -->
 
-<!-- okay this is the code from my past website - linked to the css stuff already
+<!-- okay this is the code from my past website - linked to the css stuff already-->
 <div class="card">
               <img src="paris.jpeg" alt="Card Image" class="card__image">
               <div class="card__content">
-                <p class="card__title">📍Paris</p>
+                <p class="card__title">Paris</p>
                 <p class="card__description">The capitol of France, and a beautiful place to visit year round!</p>
                 <p class="card__description"> Sightseeing spots: Eiffel Tower, Louvre, Arc de Triomphe, Seine River, and more!</p>
                 <p class="card__description"><a href="https://www.tripadvisor.ca/Attractions-g187147-Activities-Paris_Ile_de_France.html">Click here for more information!</a></p>
@@ -88,7 +88,7 @@ but make it so that if you click on them you can enter details and there also ne
             <div class="card">
               <img src="lyon.jpg" alt="Card Image" class="card__image">
               <div class="card__content">
-                <p class="card__title"> 📍Lyon</p>
+                <p class="card__title"> Lyon</p>
                 <p class="card__description">A city located in teh junction of two rivers, known for its outstanding cuisine and architecture!</p>
                 <p class="card__description"> Sightseeing spots: Théâtres Romains de Fourvière,  historic Vieux Lyon, and more!</p>
                 <p class="card__description"><a href="https://www.tripadvisor.ca/Tourism-g187265-Lyon_Rhone_Auvergne_Rhone_Alpes-Vacations.html">Click here for more information!</a></p>
@@ -98,14 +98,9 @@ but make it so that if you click on them you can enter details and there also ne
             <div class="card">
               <img src="ver.jpg" alt="Card Image" class="card__image">
               <div class="card__content">
-                <p class="card__title"> 📍Versailles</p>
-                <p class="card__description">A city located near paris, known for its deep history and sightseeing spots!</p>
+                <p id="event"class="card__title"></p>
+                <p class="card__description"></p>
                 <p class="card__description"> Sightseeing spots: Palace of Versailles,  Hall of Mirrors, and more!</p>
               </div>
-            </div>
-            <div class="map-container">
-              <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4064192.106725057!2d2.59110285!3d46.11068855!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd54a02933785731%3A0x6bfd3f96c747d9f7!2sFrance!5e1!3m2!1sen!2sca!4v1747057980621!5m2!1sen!2sca" width="600" height="450" style="border:0;" allowfullscreen=" width="600" height="450" style="border:0;" ...></iframe>
-            </div> 
---> <p> if ur seeing this GO FIGURE THSI PAGE OUT😡😡😡</p>
   </body>
 </html> 

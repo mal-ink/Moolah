@@ -139,14 +139,6 @@ form button:focus {
   border: 2px solid rgb(117, 101, 48);
 }
 
-.card{
-  position: relative;
-  width: 90%; 
-  max-width: 800px;
-  margin: 40px auto;
-  background-color: rgb(201, 255, 201); 
-}
-/* CODE FOR TEH CARDS - ONLY WORKS WITH HOVER RN DOESNT ACC LET YOU CLICK ON IT OR ANYTHING
 .card {
   position: relative;
   width: 90%; 
@@ -210,4 +202,3 @@ form button:focus {
 .card:hover .card__image {
   transform: scale(0);
 }
-  */ 

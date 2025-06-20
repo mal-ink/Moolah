@@ -29,10 +29,10 @@
 </div>
   <div id="welcome">
   </div>
-  <script>
-const form = document.querySelector('form');
-const emailInput = document.getElementById('email');
-const passwordInput = document.getElementById('password');
+<script>
+  const form = document.querySelector('form');
+const emailInput = document.getElementById('email-input'); // ✅ correct ID
+const passwordInput = document.getElementById('password-input'); // ✅ correct ID
 const errorMessage = document.getElementById('error-message');
 
 form.addEventListener('submit', async (e) => {
@@ -42,7 +42,7 @@ form.addEventListener('submit', async (e) => {
   const password = passwordInput.value.trim();
 
   try {
-    const response = await fetch('http://localhost:3000/login', { // for some reason i think this doesnt work but*come back to this*
+    const response = await fetch('http://localhost:3000/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -53,7 +53,7 @@ form.addEventListener('submit', async (e) => {
     const result = await response.json();
 
     if (response.ok) {
-      localStorage.setItem('loggedInUser', result.username); // store username
+      localStorage.setItem('loggedInUser', result.username);
       window.location.href = 'index.html';
     } else {
       errorMessage.textContent = result.message || 'Login failed.';
@@ -63,6 +63,6 @@ form.addEventListener('submit', async (e) => {
     errorMessage.textContent = 'Something went wrong. Try again later.';
   }
 });
-</script>
+  </script>
 </body>
 </html>
