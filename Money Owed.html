@@ -7,7 +7,7 @@
       - need to be able to email the contributors if they want to (this means we need another button or something in frontend)
 -->
 <!DOCTYPE html>
-<html>
+<html>  
 <head>
   <title>Money Owed</title>
   <link rel="stylesheet" href="style.css">
@@ -37,19 +37,18 @@
   <!-- Description -->
   <p style="color:rgb(4, 58, 4)">
     Log all expenses you need to remember! Whether it's paying your friend back for splitting a bill or a coworker who owes you for that morning coffee, put it all here!!
-  </p>
-<hr> 
-  <!-- Entry Cards Container -->
+  </p> 
+<hr> <div>
+    <!-- Entry Cards Container -->
   <div id="entry-list">
-    <!-- Add Entry Card -->
-    <div class="add-entry-card" onclick="openEntryForm()">
-      <img src="Background .PNG" alt="Card background">
-      <div class="overlay-text">
-        <p class="card__plus">+</p>
-        <p class="card__title">Add Entry</p>
-      </div>
-    </div>  
+  <div class="add-entry-card" onclick="openEntryForm()">
+    <img src="Background .PNG" alt="Card background">
+    <div class="overlay-text">
+      <p class="card__plus">+</p>
+      <p class="card__title">Add Entry</p>
+    </div>
   </div>
+</div> 
   <div id="entry-form-modal" style="display: none;">
     <div class="entry-form-content">
       <span class="close-modal" onclick="closeEntryForm()">✖</span>
@@ -72,7 +71,7 @@
     </div>
   </div>  
 
-<!-- bro i acutally swear why is like 3 out of 5 minute being counted but u been so outta touch!-->
+
   <!-- js frontend stuff from here -->
   <script>
     // username stuff for navbar 
@@ -125,12 +124,16 @@
         </div>
       `;
 
-      // Add before the add-entry card
-      entryList.insertBefore(entryCard, entryList.querySelector('.add-entry-card'));
+      entryList.appendChild(entryCard);
+
 
       form.reset();
       closeEntryForm();
     });
   </script>
 </body>
-</html>  
+<b>ack off on mu fella, back off bgabrielelealallalalal </b>
+
+
+
+<div> aklj chikciy chikychikcyiccjcihcicihckccihcckkhch</div>
