@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
       if (response.ok) {
         localStorage.setItem('loggedInUser', username_input.value);
-        window.location.href = 'index.html'; // go to home page i hope it works omg
+        window.location.href = 'index.html'; // go to home page 
       } else {
         error_message.innerText = result.message || 'Signup failed.';
       }

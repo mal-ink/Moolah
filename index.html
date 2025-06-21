@@ -27,8 +27,8 @@ CHANGE ALL LOCALHOST 3000 TO something accessible by people not only on my lapto
       <a href="about.html">About Us</a>
       <a href="contact us.html">Contact Us</a>
     </div>
-  </div>
-      <a href="Money Owed.html">Balances</a>
+  </div> 
+      <a href="Money Owed.html" id="balances-link" style="display: none;">Balances</a>
     <!-- This shows when you are logged in -->
   <div class="dropdown" id="user-dropdown" style="display: none;">
     <span id="nav-user" class="dropbtn" style="color: black; cursor: pointer;"></span>
@@ -42,11 +42,12 @@ CHANGE ALL LOCALHOST 3000 TO something accessible by people not only on my lapto
 </div>
 
   <div class="main-content">
-  <img src="Background .PNG" alt="Moolah Logo" style="float:right; width:300px; height:300px;">
+  <img src="Background .PNG" alt="Moolah Logo" style="float:right; width:400px; height:400px;">
   <h1>Welcome to <b><i>Moolah</i></b> – the home of all your money trackers!</h1> 
   <h3>Moolah is a web application that makes tracking and splitting bills with friends <i>simpler, smarter, and stress-free!</i>
-    <br>If you aren't already, sign up or login to start on your journey with Moolah!! After that, head to the Track Splitter page to log any recent expenses</h3>
+    <br>If you aren't already, sign up or login to start on your journey with Moolah!! After that, head to the Balances page to log any recent expenses</h3>
   </div> 
+
 <!-- code to display the user at the top and have a logout button-->
  <script>
   const loggedInUser = localStorage.getItem('loggedInUser');
@@ -54,11 +55,13 @@ CHANGE ALL LOCALHOST 3000 TO something accessible by people not only on my lapto
   const userDropdown = document.getElementById('user-dropdown');
   const loginLink = document.getElementById('login-link');
   const logoutBtn = document.getElementById('logout-button');
+  const balancesLink = document.getElementById('balances-link'); 
 
   if (loggedInUser) {
     navUser.textContent = ` ${loggedInUser}`;
     userDropdown.style.display = 'inline-block';
     loginLink.style.display = 'none';
+    balancesLink.style.display = 'inline-block';
 
     logoutBtn.addEventListener('click', () => {
       localStorage.removeItem('loggedInUser');
@@ -67,7 +70,8 @@ CHANGE ALL LOCALHOST 3000 TO something accessible by people not only on my lapto
   } else {
     userDropdown.style.display = 'none';
     loginLink.style.display = 'inline-block';
+    balancesLink.style.display = 'none';
   }
-</script> 
+</script>
 </body>
 </html> 

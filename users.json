@@ -1,50 +1,27 @@
 [
   {
-    "username": "malini",
-    "email": "malini.ayyappan09@gmail.com",
-    "password": "mmmmmmmm", 
-    "entries": [
-      {
-        "title": "Lunch with Sarah",
-        "amount": "20",
-        "contributors": ["sarah@example.com"],
-        "notes": "Split the bill"
-      }
-    ]
-    },
-  {
-    "username": "malini!",
-    "email": "777@gmail",
-    "password": "malini1234"
-  },
-  {
     "username": "malink",
-    "email": "s@1",
-    "password": "memememe"
+    "email": "909@gmail",
+    "password": "papapapa"
   },
   {
-    "username": "lirililarila",
-    "email": "hello@gmail.com",
-    "password": "mamamama"
+    "username": "chicki",
+    "email": "000@h",
+    "password": "lolololo"
   },
   {
-    "username": "mal_penmill",
-    "email": "me@gkjh",
+    "username": "clink",
+    "email": "malini.ayyappan09@gmail.com",
+    "password": "malinkthe"
+  },
+  {
+    "username": "tralalerotralal",
+    "email": "me@gmail.com",
     "password": "hihihihi"
   },
   {
-    "username": "malini",
-    "email": "hi@gmail.com",
-    "password": "11111111"
-  },
-  {
-    "username": "mal",
-    "email": "3@2",
-    "password": "eeeeeeeeeeee"
-  },
-  {
-    "username": "hi",
-    "email": "20@gmail.com",
-    "password": "lalalala"
+    "username": "mal_penmill",
+    "email": "hello@gmail.com",
+    "password": "hihihihi"
   }
 ]
