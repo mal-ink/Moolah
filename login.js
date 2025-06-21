@@ -49,11 +49,11 @@ app.post('/signup', (req, res) => {
     username,
     email,
     password,
-    entries: [],                      //  Ensure entries array exists
+    entries: [ ],                      //  Ensure entries array exists
   };
 
   users.push(newUser);
-  saveUsersToFile();
+  saveUsersToFile(); 
 
   res.status(200).json({ message: 'Signup successful!' });
 });

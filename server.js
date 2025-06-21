@@ -4,12 +4,11 @@ const nodemailer = require('nodemailer');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const fs = require('fs');
-
+const { hasUncaughtExceptionCaptureCallback } = require('process');
 const app = express();
 const PORT = 3000;
 const USERS_FILE = './users.json';
 
-// Middleware
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -22,9 +21,9 @@ function loadUsers() {
 
 function saveUsers(users) {
   fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2));
-}
+} 
 
-// --- Route 1: Contact Form Submission ---
+//  Contact formsubmission
 app.post('/contact', (req, res) => {
   const { firstname, lastname, email, reason } = req.body;
 
@@ -54,7 +53,7 @@ app.post('/contact', (req, res) => {
   });
 });
 
-//Route 2: Add an expense entry
+// Add an expense entryyyyyyyyyy
 app.post('/add-entry', (req, res) => {
   const { username, title, amount, contributors, notes } = req.body;
 
@@ -69,7 +68,7 @@ app.post('/add-entry', (req, res) => {
     return res.status(404).json({ error: 'User not found' });
   }
 
-  // THIS IS THE PART THAT DOESNT WORK!!
+  // THIS IS THE PART THAT DOESNT WORK!! 
    if (!user.entries) user.entries = [];
   user.entries.push({
     title,
@@ -82,9 +81,9 @@ app.post('/add-entry', (req, res) => {
   res.json({ success: true });
 });
 
-// Route 3: Get entries for a user 
+// this part is supposed to bring the entries of users back but bcz theres nothing to fetch..:((
 app.get('/get-entries', (req, res) => {
-  const { username } = req.query;
+  const { username } = req.query; 
 
   if (!username) {
     return res.status(400).json({ error: 'Username is required' });
@@ -103,4 +102,4 @@ app.get('/get-entries', (req, res) => {
 // --- START SERVER AT THE END ---
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
-});
+});  
