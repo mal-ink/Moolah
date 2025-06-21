@@ -19,11 +19,10 @@
   <!-- This shows when you are logged in -->
   <div class="dropdown" id="user-dropdown" style="display: none;">
     <span id="nav-user" class="dropbtn" style="color: black; cursor: pointer;"></span>
-    <div class="dropdown-content">
-      <button id="logout-button">Logout</button>
+    <div class="logout">
+          <button class="logout-button" id="logout-button">Logout</button>
     </div>
   </div>
-
   <!-- This shows when you are logged out -->
   <a href="account.html" id="login-link" style="color: black;">Login</a>
 </div>
@@ -45,7 +44,6 @@
         <input type="submit" value="Submit">
       </fieldset>
     </form>
-
     <script>
       document.getElementById("contactForm").addEventListener("submit", function (e) {
         e.preventDefault();
@@ -83,8 +81,7 @@
       Here at Moolah, we value our users and their feedback! If you have any questions, concerns, or suggestions, don’t hesitate to reach out — we’re always happy to hear from you.
       Your input helps us improve and build features that truly matter. Together, we can make managing split bills 
       <i>simpler, smarter, and stress-free</i>. Thank you for being a part of the Moolah community!
-    </p>
-
+    </p> 
     <!-- code to display the user at the top and have a logout button-->
     <script>
   const loggedInUser = localStorage.getItem('loggedInUser');

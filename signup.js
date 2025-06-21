@@ -10,28 +10,39 @@ document.addEventListener('DOMContentLoaded', function () {
   form.addEventListener('submit', async function (e) {
     e.preventDefault();
 
-    // Clear any previous error styles
+    error_message.innerText = '';
     document.querySelectorAll('.incorrect').forEach(el => el.classList.remove('incorrect'));
+
+    const username = username_input.value.trim();
+    const email = email_input.value.trim();
+    const password = password_input.value;
+    const repeatPassword = repeat_password_input.value;
 
     const errors = [];
 
-    if (!username_input.value.trim()) {
+    // Validation
+    if (!username) {
       errors.push("Username cannot be empty");
       username_input.parentElement.classList.add('incorrect');
     }
-    if (!email_input.value.trim()) {
+
+    if (!email) {
       errors.push("Email cannot be empty");
       email_input.parentElement.classList.add('incorrect');
+    } else if (!email.includes('@') || (!email.endsWith('.com') && !email.endsWith('.ca'))) {
+      errors.push("Email must contain '@' and end with .com or .ca");
+      email_input.parentElement.classList.add('incorrect');
     }
-    if (!password_input.value.trim()) {
+
+    if (!password) {
       errors.push("Password cannot be empty");
       password_input.parentElement.classList.add('incorrect');
-    }
-    if (password_input.value.length < 8) {
-      errors.push("Password must be at least 8 characters long");
+    } else if (password.length < 8) {
+      errors.push("Password must be at least 8 characters");
       password_input.parentElement.classList.add('incorrect');
     }
-    if (password_input.value !== repeat_password_input.value) {
+
+    if (password !== repeatPassword) {
       errors.push("Passwords do not match");
       password_input.parentElement.classList.add('incorrect');
       repeat_password_input.parentElement.classList.add('incorrect');
@@ -42,31 +53,25 @@ document.addEventListener('DOMContentLoaded', function () {
       return;
     }
 
+    // Send signup request
     try {
       const response = await fetch('http://localhost:3000/signup', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          username: username_input.value,
-          email: email_input.value,
-          password: password_input.value
-        })
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, email, password })
       });
 
       const result = await response.json();
 
       if (response.ok) {
-        localStorage.setItem('loggedInUser', username_input.value);
-        window.location.href = 'index.html'; // go to home page 
+        localStorage.setItem('loggedInUser', username);
+        window.location.href = 'index.html'; // or wherever your homepage is
       } else {
         error_message.innerText = result.message || 'Signup failed.';
       }
-
     } catch (err) {
-      error_message.innerText = 'Something went wrong. Try again later.';
       console.error(err);
+      error_message.innerText = 'Something went wrong. Please try again later.';
     }
   });
 });

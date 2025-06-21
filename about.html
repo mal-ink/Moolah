@@ -19,8 +19,8 @@
   <!-- This shows when you are logged in -->
   <div class="dropdown" id="user-dropdown" style="display: none;">
     <span id="nav-user" class="dropbtn" style="color: black; cursor: pointer;"></span>
-    <div class="dropdown-content">
-      <button id="logout-button">Logout</button>
+    <div class="logout">
+          <button class="logout-button" id="logout-button">Logout</button>
     </div>
   </div>
   <!-- This shows when you are logged out -->
@@ -32,14 +32,15 @@
         <br>
         Well now, with Moolah, you will never have to worry about forgetting again! You can easily log your expenses, track who owes you money, and settle up with friends in the blink of an eye. No more awkward conversations or forgotten debts!
     </p>
+    <br><hr>
+      <h1> How to Use!</h1>
+        <p> To start using Moolah, click on the top right to login or create an account! <br> After that, head to the Balances page to log an entry </p>
     <hr><br>
     <h2>Meet the Creator!</h2> 
     <p>Hi! I'm Malini, the creator of Moolah. I built this app to help people like you keep track of their expenses and make managing money with friends a breeze. 
         This whole creation came up because I often don't have money on me, I hope you find it as useful as I do! if there are any bugs, feel free to email me at
-         malini.ayyappan09@gmail.com or message me on slack - my user is Malini Ayyappan! :)<br> below are just some photos of the app in creation(and me crashing out a whole bunch)
-    </p>
-
-<!-- code to display the user at the top and have a logout button-->
+         malini.ayyappan09@gmail.com or message me on slack - my user is Malini Ayyappan! :)
+    </p> 
 <script>
   const loggedInUser = localStorage.getItem('loggedInUser');
   const navUser = document.getElementById('nav-user');

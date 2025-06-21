@@ -1,6 +1,6 @@
 <!--frontend kinda works what do we need to do
        - entry display needs to be cuter + matchting with the add entry button
-        - 
+       - fix login button
   backend
       - needs to be saved per account 
       - need to be able to save entries and retrieve every time user logs in
@@ -26,7 +26,7 @@
       <a href="Money Owed.html" class="active">Balances</a>
       <div class="dropdown" id="user-dropdown" style="display: none;">
         <span id="nav-user" class="dropbtn" style="color: black; cursor: pointer;"></span>
-        <div class="dropdown">
+        <div class="logout">
           <button class="logout-button" id="logout-button">Logout</button>
         </div>
       </div>
@@ -70,6 +70,7 @@
       </form>
     </div>
   </div>   
+
   <!-- js frontend stuff from here -->
   <script>
     // username stuff for navbar 
@@ -127,6 +128,10 @@
       form.reset();
       closeEntryForm();
     });
-  </script> 
+  </script>
+  <p>
+    <!-- You can add additional instructions, tips, or a fun message here if desired. -->
+    <em>Tip: Click the "+" card to add a new expense entry. Keep your balances up to date and never forget who owes what!</em>
+  </p> 
   </body>    
 </html>

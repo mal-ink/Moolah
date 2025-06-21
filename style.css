@@ -10,7 +10,7 @@ body {
   background-repeat: no-repeat;
   height: 144px;
   display: flex;
-  justify-content: space-between; /* keep this if you want */
+  justify-content: space-between; 
   align-items: center;
   padding: 0 20px;
   z-index: 1000;
@@ -19,9 +19,9 @@ body {
 
 .nav-links {
   display: flex;
-  justify-content: flex-end;  /* push links to right */
+  justify-content: flex-end;  
   gap: 20px;
-  width: 100%;                /* takes full width of navbar */
+  width: 100%;                
   align-items: center;
   font-size: 30px;
 }
@@ -87,6 +87,7 @@ body {
 
 .main-content {
   padding: 20px;
+  margin-right: 5%;
 }
 
 .wrapper{
@@ -151,66 +152,6 @@ form button:focus {
   border: 2px solid rgb(117, 101, 48);
 }
 
-.card {
-  position: relative;
-  width: 90%; 
-  max-width: 800px; 
-  margin: 40px auto; 
-  background-color: #f2f2f2;
-  border-radius: 10px;
-  overflow: hidden;
-  perspective: 1000px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-.card__image {
-  width: 100%;
-  height: 400px;
-  object-fit: cover; 
-  transition: all 0.6s ease;
-}
-
-.card:hover {
-  transform: scale(1.03);
-}
-
-.card__content {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(255,255,255,0.9);
-  padding: 30px;
-  box-sizing: border-box;
-  transform: rotateX(-90deg);
-  transform-origin: bottom;
-  transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-.card:hover .card__content {
-  transform: rotateX(0deg);
-}
-
-.card__title {
-  font-size: 32px;
-  color: #333;
-  font-weight: 800;
-  margin-bottom: 20px;
-}
-
-.card__description {
-  font-size: 18px;
-  color: #555;
-  line-height: 1.6;
-}
-
-/* The always-visible + add entry card */
 .add-entry-card {
   width: 250px;
   height: 280px;
@@ -223,9 +164,8 @@ form button:focus {
   overflow: hidden;
   cursor: pointer;
   transition: transform 0.2s ease;
-  /*position: fixed; - this makes it stick to the to the left side but for some reason other things go overtop of it*/
 }
-/* i cant freaking find it i just want it to stick to the left side please*/
+
 .add-entry-card img {
   width: 100%;
   height: 100%;
@@ -270,7 +210,6 @@ form button:focus {
   color: #0d5037;
 }
 
-/* Fullscreen modal overlay */
 #entry-list {
   display: flex;
   flex-direction: row;
@@ -279,7 +218,6 @@ form button:focus {
   padding: 30px;
 }
 
-/* Place add-entry-card in its own container so it stays fixed on the left */
 .add-entry-card {
   width: 250px;
   height: 280px;
@@ -313,8 +251,6 @@ form button:focus {
   z-index: 2;
 }
 
-
-/* Modal content */
 .entry-form-content {
   background-color: white;
   padding: 30px;
@@ -357,7 +293,6 @@ form button:focus {
   background-color: #186b4c;
 }
 
-/* Close button */
 .close-modal {
   position: absolute;
   top: 15px;
@@ -370,14 +305,13 @@ form button:focus {
   color: #333;
 }
 
-/* Container for all entry cards */
 #entry-list {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
   padding: 30px;
 }
-/* Style for each new expense card okay why is it nactually not countin im going to kill my self1!!!!!! */
+
 .entry-card {
   width: 225px;
   height: 260px;
@@ -396,7 +330,6 @@ form button:focus {
   transform: scale(1.03);
 }
 
-/* Initially hidden details */
 .entry-details {
   opacity: 0;
   transition: opacity 0.3s ease;
@@ -405,7 +338,6 @@ form button:focus {
   margin-top: 10px;
 }
 
-/* Show details on hover */
 .entry-card:hover .entry-details {
   opacity: 1;
 }
@@ -418,7 +350,19 @@ form button:focus {
   top: 0; left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(6, 92, 6, 0.6);
+  background-color: rgba(5, 71, 5, 0.402);
   z-index: 999;
 }
  
+.logout {
+  display: none;
+  position: left;
+  background-color: rgb(9, 78, 9);
+  min-width: 100px;
+  box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+  z-index: 1;
+  flex-direction: column;
+}
+.dropdown:hover .logout {
+  display: flex;
+} 
