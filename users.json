@@ -2,8 +2,16 @@
   {
     "username": "malini",
     "email": "malini.ayyappan09@gmail.com",
-    "password": "mmmmmmmm"
-  },
+    "password": "mmmmmmmm", 
+    "entries": [
+      {
+        "title": "Lunch with Sarah",
+        "amount": "20",
+        "contributors": ["sarah@example.com"],
+        "notes": "Split the bill"
+      }
+    ]
+    },
   {
     "username": "malini!",
     "email": "777@gmail",
