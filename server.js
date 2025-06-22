@@ -9,22 +9,29 @@ const app = express();
 const PORT = 3000;
 const USERS_FILE = './users.json';
 
-// Middleware
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// Utility functions
 function loadUsers() {
   if (!fs.existsSync(USERS_FILE)) return [];
-  return JSON.parse(fs.readFileSync(USERS_FILE));
+  try {
+    return JSON.parse(fs.readFileSync(USERS_FILE));
+  } catch (err) {
+    console.error('Failed to read users file:', err);
+    return [];
+  }
 }
 
 function saveUsers(users) {
-  fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2));
+  try {
+    fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2));
+  } catch (err) {
+    console.error('Failed to save users file:', err);
+  }
 }
 
-// ======================= SIGNUP ========================
+// DOESNT WORK??? SIGNUP
 app.post('/signup', (req, res) => {
   const { username, email, password } = req.body;
 
@@ -34,7 +41,7 @@ app.post('/signup', (req, res) => {
 
   const emailPattern = /^[^@]+@[^@]+\.(com|ca)$/i;
   if (!emailPattern.test(email)) {
-    return res.status(400).json({ message: 'Email must end with .com or .ca' });
+    return res.status(400).json({ message: 'Email must contain "@" and end with .com or .ca' });
   }
 
   const users = loadUsers();
@@ -47,7 +54,7 @@ app.post('/signup', (req, res) => {
     username,
     email,
     password,
-    entries: [] // Initialize with empty entries array
+    entries: [] // Ensure entries array exists
   };
 
   users.push(newUser);
@@ -56,7 +63,7 @@ app.post('/signup', (req, res) => {
   res.status(200).json({ message: 'Signup successful!' });
 });
 
-// ======================= LOGIN ========================
+// login
 app.post('/login', (req, res) => {
   const { email, password } = req.body;
 
@@ -74,7 +81,7 @@ app.post('/login', (req, res) => {
   res.status(200).json({ message: 'Login successful!', username: user.username });
 });
 
-// ======================= ADD ENTRY ========================
+// ALSO DOESNT WORK
 app.post('/add-entry', (req, res) => {
   const { username, title, amount, contributors, notes } = req.body;
 
@@ -95,7 +102,7 @@ app.post('/add-entry', (req, res) => {
   res.json({ success: true });
 });
 
-// ======================= GET ENTRIES ========================
+// DOESNT WOKR
 app.get('/get-entries', (req, res) => {
   const { username } = req.query;
 
@@ -113,7 +120,7 @@ app.get('/get-entries', (req, res) => {
   res.json({ entries: user.entries || [] });
 });
 
-// ======================= CONTACT FORM ========================
+// contact us js!
 app.post('/contact', (req, res) => {
   const { firstname, lastname, email, reason } = req.body;
 

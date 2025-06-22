@@ -25,7 +25,6 @@ document.addEventListener('DOMContentLoaded', function () {
       errors.push("Username cannot be empty");
       username_input.parentElement.classList.add('incorrect');
     }
-
     if (!email) {
       errors.push("Email cannot be empty");
       email_input.parentElement.classList.add('incorrect');
@@ -74,4 +73,4 @@ document.addEventListener('DOMContentLoaded', function () {
       error_message.innerText = 'Something went wrong. Please try again later.';
     }
   });
-});
+}); 
