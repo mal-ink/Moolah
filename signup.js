@@ -1,4 +1,4 @@
-//this is all still frontend i think but some of it get s overriden byt the other frontend code?? i think i have repeats
+//this code isnt actually used for signup but it still is used for the login page
 document.addEventListener('DOMContentLoaded', function () {
   const form = document.getElementById('signup-form');
   const username_input = document.getElementById('username-input');
@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
       if (response.ok) {
         localStorage.setItem('loggedInUser', username);
-        window.location.href = 'index.html'; // or wherever your homepage is
+        window.location.href = 'index.html'; 
       } else {
         error_message.innerText = result.message || 'Signup failed.';
       }

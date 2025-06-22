@@ -2,8 +2,7 @@
        - entry display needs to be cuter + matchting with the add entry button
        - fix login button
   backend
-      - needs to be saved per account 
-      - need to be able to save entries and retrieve every time user logs in
+      - needs to be saved per account and retrieve every time user logs in
       - need to be able to email the contributors if they want to (this means we need another button or something in frontend)
 -->
 <!DOCTYPE html>
@@ -104,17 +103,39 @@
     const form = document.getElementById('entryForm');
     const entryList = document.getElementById('entry-list');
 
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
+    form.addEventListener('submit', async function (e) {
+  e.preventDefault();
 
-      const title = document.getElementById('entryTitle').value.trim();
-      const amount = document.getElementById('entryAmount').value.trim();
-      const contributors = document.getElementById('entryContributors').value.trim();
-      const description = document.getElementById('entryDescription').value.trim();
+  const title = document.getElementById('entryTitle').value.trim();
+  const amount = document.getElementById('entryAmount').value.trim();
+  const contributors = document.getElementById('entryContributors').value.trim();
+  const description = document.getElementById('entryDescription').value.trim();
 
+  if (!loggedInUser) {
+    alert("You're not logged in.");
+    return;
+  }
+
+  // Send data to backend
+  try {
+    const response = await fetch('http://localhost:3000/add-entry', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        username: loggedInUser,
+        title,
+        amount,
+        contributors,
+        notes: description
+      })
+    });
+
+    const result = await response.json();
+
+    if (response.ok) {
+      // ✅ Add the card to the page visually
       const entryCard = document.createElement('div');
       entryCard.classList.add('entry-card');
-
       entryCard.innerHTML = `
         <strong>${title}</strong><br>$${amount}
         <div class="entry-details">
@@ -122,15 +143,20 @@
           <p><strong>Contributors:</strong><br>${contributors.replace(/\n/g, '<br>').replace(/, ?/g, '<br>')}</p>
         </div>
       `;
-
       entryList.appendChild(entryCard);
 
       form.reset();
       closeEntryForm();
-    });
+    } else {
+      alert(result.error || 'Failed to add entry.');
+    }
+  } catch (err) {
+    console.error(err);
+    alert('Server error. Please try again later.');
+  }
+}); // okay it should work now lets go test it out!!!
   </script>
-  <p>
-    <!-- You can add additional instructions, tips, or a fun message here if desired. -->
+  <p>sorryfjhg kuhuihu iojsodif hundred love meee see my body wokring whoah woahw waohw aowhhhh hey yaaa
     <em>Tip: Click the "+" card to add a new expense entry. Keep your balances up to date and never forget who owes what!</em>
   </p> 
   </body>    

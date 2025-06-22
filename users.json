@@ -34,6 +34,13 @@
     "username": "omgisthisreaaal",
     "email": "127@gmail.com",
     "password": "onionhase",
-    "entries": []
+    "entries": [
+      {
+        "title": "dinner",
+        "amount": "30",
+        "contributors": "helloooo@gmail",
+        "notes": ""
+      }
+    ]
   }
 ]

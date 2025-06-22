@@ -3,15 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Signup Page</title>
-     <link rel="stylesheet" href="style.css">
-     <!--<script type="text/javascript" src="signup.js" defer></script>-->
+     <link rel="stylesheet" href="style.css"> 
+     <!--<script type="text/javascript" src="signup.js" defer></script> - this part isnt necesarry but im still keeping it oh well  -->
 </head>
-<body class="signup-page">
-    
+<body class="signup-page">     
     <div class='wrapper'>
       <div class="home-link">
       <a href="index.html" >Home</a>
-    </div>
+    </div> 
         <h1>Signup</h1>
         <p id="error-message"></p>
           <form id="signup-form">
@@ -41,9 +40,9 @@
             </div><br>
             <button type="submit" id='signup-button'>Sign Up</button> 
             <p>Already have an account? <a href="account.html">Login!</a></p>
-            </form> <!-- ✅ Form ends before wrapper -->
+            </form> 
             </div>
-
+<!-- you lowk need to redo the visuals on this part girl...-->
     <script>
   const form = document.querySelector('form');
   const username_input = document.getElementById('username-input');
@@ -60,7 +59,6 @@
     const password = password_input.value.trim();
     const repeatPassword = repeat_password_input.value.trim();
 
-    // Basic validation
     const errors = [];
     if (!username) errors.push("Username cannot be empty");
     if (!email) errors.push("Email cannot be empty");
@@ -88,13 +86,13 @@
         localStorage.setItem('loggedInUser', username);
         window.location.href = 'index.html';
       } else {
-        error_message.innerText = result.message || 'Signup failed.';
+        error_message.innerText = result.message || 'Signup failed :(';
       }
     } catch (error) {
       console.error(error);
       error_message.innerText = 'Something went wrong. Try again.';
     }
   });
-</script>
+</script> 
 </body> 
 </html> 
