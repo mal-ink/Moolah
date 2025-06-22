@@ -33,12 +33,12 @@
     </div>
   </div>
 
-  <!-- Description -->
+   <!-- entries and descriptions for this page! -->
   <p style="color:rgb(4, 58, 4)">
     Log all expenses you need to remember! Whether it's paying your friend back for splitting a bill or a coworker who owes you for that morning coffee, put it all here!!
   </p> 
 <hr> <div>
-    <!-- Entry Cards Container -->
+ 
   <div id="entry-list">
   <div class="add-entry-card" onclick="openEntryForm()">
     <img src="Background .PNG" alt="Card background">
@@ -70,94 +70,161 @@
     </div>
   </div>   
 
-  <!-- js frontend stuff from here -->
-  <script>
-    // username stuff for navbar 
-    const loggedInUser = localStorage.getItem('loggedInUser');
-    const navUser = document.getElementById('nav-user');
-    const userDropdown = document.getElementById('user-dropdown');
-    const loginLink = document.getElementById('login-link');
-    const logoutBtn = document.getElementById('logout-button');
+  <!-- javascript frontend stuff from here!! -->
+<script> 
+  const loggedInUser = localStorage.getItem('loggedInUser');
+  const navUser = document.getElementById('nav-user');
+  const userDropdown = document.getElementById('user-dropdown');
+  const loginLink = document.getElementById('login-link');
+  const logoutBtn = document.getElementById('logout-button');
+  const form = document.getElementById('entryForm');
+  const entryList = document.getElementById('entry-list');
 
-    if (loggedInUser) {
-      navUser.textContent = ` ${loggedInUser}`;
-      userDropdown.style.display = 'inline-block';
-      loginLink.style.display = 'none';
-      logoutBtn.addEventListener('click', () => {
-        localStorage.removeItem('loggedInUser');
-        window.location.reload();
-      });
-    } else {
-      userDropdown.style.display = 'none';
-      loginLink.style.display = 'inline-block';
-    }
-
-    function openEntryForm() {
-      document.getElementById('entry-form-modal').style.display = 'flex';
-    }
-    function closeEntryForm() {
-      document.getElementById('entry-form-modal').style.display = 'none';
-    }
-
-    // Entry form submission
-    const form = document.getElementById('entryForm');
-    const entryList = document.getElementById('entry-list');
-
-    form.addEventListener('submit', async function (e) {
-  e.preventDefault();
-
-  const title = document.getElementById('entryTitle').value.trim();
-  const amount = document.getElementById('entryAmount').value.trim();
-  const contributors = document.getElementById('entryContributors').value.trim();
-  const description = document.getElementById('entryDescription').value.trim();
-
-  if (!loggedInUser) {
-    alert("You're not logged in.");
-    return;
+  // username/login
+  if (loggedInUser) {
+    navUser.textContent = ` ${loggedInUser}`;
+    userDropdown.style.display = 'inline-block';
+    loginLink.style.display = 'none';
+    logoutBtn.addEventListener('click', () => {
+      localStorage.removeItem('loggedInUser');
+      window.location.reload();
+    });
+  } else {
+    userDropdown.style.display = 'none';
+    loginLink.style.display = 'inline-block';
   }
 
-  // Send data to backend
+  function openEntryForm() {
+    document.getElementById('entry-form-modal').style.display = 'flex';
+  }
+
+  function closeEntryForm() {
+    document.getElementById('entry-form-modal').style.display = 'none';
+  }
+
+  // pulling entries when logged in
+  async function loadEntries() {
+    if (!loggedInUser) return;
+
+    try {
+      const response = await fetch(`http://localhost:3000/get-entries?username=${encodeURIComponent(loggedInUser)}`);
+      const result = await response.json();
+
+      if (response.ok) {
+        const entries = result.entries || [];
+
+        entries.forEach(entry => {
+          const entryCard = document.createElement('div');
+          entryCard.classList.add('entry-card');
+          entryCard.innerHTML = `
+           <strong>${entry.title}</strong><br>$${entry.amount}
+            <div class="entry-details">
+            <p><strong>Notes:</strong> ${entry.notes || "None"}</p>
+           <p><strong>Contributors:</strong><br>${entry.contributors.replace(/\n/g, '<br>').replace(/, ?/g, '<br>')}</p>
+            </div>
+           <div class="trash-icon" title="Delete">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#a00">
+            <path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/>
+            </svg>
+           </div>
+          `;
+          entryCard.querySelector('.trash-icon').addEventListener('click', async () => {
+  const confirmDelete = confirm("Are you sure you want to delete this entry?");
+  if (!confirmDelete) return;
+
   try {
-    const response = await fetch('http://localhost:3000/add-entry', {
+    const res = await fetch('http://localhost:3000/delete-entry', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         username: loggedInUser,
-        title,
-        amount,
-        contributors,
-        notes: description
+        title: entry.title,
+        amount: entry.amount
       })
     });
 
-    const result = await response.json();
+    const data = await res.json();
 
-    if (response.ok) {
-      // ✅ Add the card to the page visually
-      const entryCard = document.createElement('div');
-      entryCard.classList.add('entry-card');
-      entryCard.innerHTML = `
-        <strong>${title}</strong><br>$${amount}
-        <div class="entry-details">
-          <p><strong>Notes:</strong> ${description || "None"}</p>
-          <p><strong>Contributors:</strong><br>${contributors.replace(/\n/g, '<br>').replace(/, ?/g, '<br>')}</p>
-        </div>
-      `;
-      entryList.appendChild(entryCard);
-
-      form.reset();
-      closeEntryForm();
+    if (res.ok) {
+      entryCard.remove(); // Remove from the page
     } else {
-      alert(result.error || 'Failed to add entry.');
+      alert(data.error || "Could not delete entry.");
     }
   } catch (err) {
-    console.error(err);
-    alert('Server error. Please try again later.');
+    console.error("Delete failed:", err);
+    alert("Error deleting entry. Try again.");
   }
-}); // okay it should work now lets go test it out!!!
-  </script>
-  <p>sorryfjhg kuhuihu iojsodif hundred love meee see my body wokring whoah woahw waohw aowhhhh hey yaaa
+});
+
+
+          entryList.appendChild(entryCard);
+        });
+      } else {
+        console.error(result.error || "Failed to load entries.");
+      }
+    } catch (err) {
+      console.error("Error loading entries:", err);
+    }
+  }
+
+  // form submisstion
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const title = document.getElementById('entryTitle').value.trim();
+    const amount = document.getElementById('entryAmount').value.trim();
+    const contributors = document.getElementById('entryContributors').value.trim();
+    const description = document.getElementById('entryDescription').value.trim();
+
+    if (!loggedInUser) {
+      alert("You're not logged in.");
+      return;
+    }
+
+    try {
+      const response = await fetch('http://localhost:3000/add-entry', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          username: loggedInUser,
+          title,
+          amount,
+          contributors,
+          notes: description
+        })
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        const entryCard = document.createElement('div');
+        entryCard.classList.add('entry-card');
+        entryCard.innerHTML = `
+          <strong>${title}</strong><br>$${amount}
+          <div class="entry-details">
+            <p><strong>Notes:</strong> ${description || "None"}</p>
+            <p><strong>Contributors:</strong><br>${contributors.replace(/\n/g, '<br>').replace(/, ?/g, '<br>')}</p>
+          </div>
+        `;
+        entryList.appendChild(entryCard);
+
+        form.reset();
+        closeEntryForm();
+      } else {
+        alert(result.error || 'Failed to add entry.');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Server error. Please try again later.');
+    }
+  });
+
+  if (loggedInUser) {
+    loadEntries();
+  }
+</script>  
+  <p>
     <em>Tip: Click the "+" card to add a new expense entry. Keep your balances up to date and never forget who owes what!</em>
   </p> 
-  </body>    
+ </body>    
 </html>
