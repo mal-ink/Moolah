@@ -69,8 +69,8 @@
     </div>
   </div>   
 
-  <!-- javascript frontend stuff from here!! -->
-<script> 
+
+  <script>
   const loggedInUser = localStorage.getItem('loggedInUser');
   const navUser = document.getElementById('nav-user');
   const userDropdown = document.getElementById('user-dropdown');
@@ -79,7 +79,6 @@
   const form = document.getElementById('entryForm');
   const entryList = document.getElementById('entry-list');
 
-  // username/login
   if (loggedInUser) {
     navUser.textContent = ` ${loggedInUser}`;
     userDropdown.style.display = 'inline-block';
@@ -101,7 +100,6 @@
     document.getElementById('entry-form-modal').style.display = 'none';
   }
 
-  // pulling entries when logged in
   async function loadEntries() {
     if (!loggedInUser) return;
 
@@ -116,51 +114,91 @@
           const entryCard = document.createElement('div');
           entryCard.classList.add('entry-card');
           entryCard.innerHTML = `
-           <strong>${entry.title}</strong><br>$${entry.amount}
+            <strong>${entry.title}</strong><br>$${entry.amount}
             <div class="entry-details">
-            <p><strong>Notes:</strong> ${entry.notes || "None"}</p>
-           <p><strong>Contributors:</strong><br>${entry.contributors.replace(/\n/g, '<br>').replace(/, ?/g, '<br>')}</p>
+              <p><strong>Notes:</strong> ${entry.notes || "None"}</p>
+              <p><strong>Contributors:</strong><br>${entry.contributors.replace(/\n/g, '<br>').replace(/, ?/g, '<br>')}</p>
             </div>
-           <div class="trash-icon" title="Delete">
-            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#a00">
-            <path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/>
-            </svg>
-           </div>
-           <div class="email-icon" title="Email Contributors">
-            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f">
-            <path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v480q0 33-23.5 56.5T800-160H160Zm320-280L160-640v400h640v-400L480-440Zm0-80 320-200H160l320 200ZM160-640v-80 480-400Z"/>
-            </svg>
-          </div>
+            <div class="trash-icon" title="Delete">
+              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#a00">
+                <path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/>
+              </svg>
+            </div>
+            <div class="email-icon" title="Email Contributors">
+              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f">
+                <path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v480q0 33-23.5 56.5T800-160H160Zm320-280L160-640v400h640v-400L480-440Zm0-80 320-200H160l320 200ZM160-640v-80 480-400Z"/>
+              </svg>
+            </div>
           `;
+
+          // Delete button
           entryCard.querySelector('.trash-icon').addEventListener('click', async () => {
-  const confirmDelete = confirm("Are you sure you want to delete this entry?");
-  if (!confirmDelete) return;
+            const confirmDelete = confirm("Are you sure you want to delete this entry?");
+            if (!confirmDelete) return;
+
+            try {
+              const res = await fetch('http://localhost:3000/delete-entry', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  username: loggedInUser,
+                  title: entry.title,
+                  amount: entry.amount
+                })
+              });
+
+              const data = await res.json();
+
+              if (res.ok) {
+                entryCard.remove();
+              } else {
+                alert(data.error || "Could not delete entry.");
+              }
+            } catch (err) {
+              console.error("Delete failed:", err);
+              alert("Error deleting entry. Try again.");
+            }
+          });
+
+          // Email button
+          entryCard.querySelector('.email-icon').addEventListener('click', async () => {
+  const emailList = entry.contributors
+    .split(/[\n,]+/)
+    .map(email => email.trim())
+    .filter(email => email.length > 0);
+
+  if (emailList.length === 0) {
+    return alert("No valid contributor emails found.");
+  }
+
+  const subject = `Reminder from Moolah: ${entry.title}`;
+  const message = `Hey! Just a reminder that for "${entry.title}", you contributed to an expense of $${entry.amount}.\n\nNotes: ${entry.notes || "None"}\n\n- Sent via Moolah!`;
 
   try {
-    const res = await fetch('http://localhost:3000/delete-entry', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        username: loggedInUser,
-        title: entry.title,
-        amount: entry.amount
-      })
-    });
-
-    const data = await res.json();
-
-    if (res.ok) {
-      entryCard.remove(); // Remove from the page
-    } else {
-      alert(data.error || "Could not delete entry.");
-    }
-  } catch (err) {
-    console.error("Delete failed:", err);
-    alert("Error deleting entry. Try again.");
-  }
+    const res = await fetch('http://localhost:3000/send-email', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' }, 
+  body: JSON.stringify({
+    recipients: emailList,
+    subject: "Reminder: Money owed",
+    message: "Hey! Just a reminder...",
+    sender: loggedInUser
+  })
 });
 
 
+    const result = await res.json();
+
+    if (res.ok) {
+      alert("Email sent successfully.");
+    } else {
+      alert(result.error || "Failed to send email.");
+    }
+  } catch (err) {
+    console.error("Email send error:", err);
+    alert("Something went wrong while sending the email.");
+  }
+});
           entryList.appendChild(entryCard);
         });
       } else {
@@ -171,7 +209,6 @@
     }
   }
 
-  // form submisstion
   form.addEventListener('submit', async function (e) {
     e.preventDefault();
 
@@ -198,22 +235,12 @@
         })
       });
 
-      const result = await response.json(); 
+      const result = await response.json();
 
       if (response.ok) {
-        const entryCard = document.createElement('div');
-        entryCard.classList.add('entry-card');
-        entryCard.innerHTML = `
-          <strong>${title}</strong><br>$${amount}
-          <div class="entry-details">
-            <p><strong>Notes:</strong> ${description || "None"}</p>
-            <p><strong>Contributors:</strong><br>${contributors.replace(/\n/g, '<br>').replace(/, ?/g, '<br>')}</p>
-          </div>
-        `;
-        entryList.appendChild(entryCard);
-
         form.reset();
         closeEntryForm();
+        loadEntries(); // reload entries
       } else {
         alert(result.error || 'Failed to add entry.');
       }
@@ -226,9 +253,9 @@
   if (loggedInUser) {
     loadEntries();
   }
-</script>  
+</script>
   <p>
     <em>Tip: Click the "+" card to add a new expense entry. Keep your balances up to date and never forget who owes what!</em>
   </p> 
 </body>
-</html>
+</html> 

@@ -13,6 +13,8 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+app.use(express.static(__dirname));
+
 function loadUsers() {
   if (!fs.existsSync(USERS_FILE)) return [];
   try {
@@ -186,6 +188,40 @@ app.post('/delete-entry', (req, res) => {
   res.json({ message: "Entry deleted successfully." });
 });
 
+app.post('/send-email', (req, res) => {
+  const { recipients, subject, message, sender } = req.body;
+
+  if (!recipients || recipients.length === 0 || !subject || !message) {
+    return res.status(400).json({ error: 'Missing required fields.' });
+  }
+
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS
+    }
+  });
+
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: recipients,
+    subject: subject,
+    text: `${message}\n\nSent by: ${sender}`
+  };
+
+  transporter.sendMail(mailOptions, (err, info) => {
+    if (err) {
+      console.error('Email error:', err);
+      return res.status(500).json({ error: 'Failed to send email.' });
+    } else {
+      console.log('Email sent:', info.response);
+      res.json({ success: true });
+    }
+  });
+});
+
+
 app.listen(PORT, () => {
   console.log(`‼️Server running on http://localhost:${PORT}‼️`);
-}); okaybutitsotoaky.PORT.toFixed.apply.call.bind.call.bind.call.bind.call
+});
