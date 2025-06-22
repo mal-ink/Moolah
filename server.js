@@ -156,7 +156,7 @@ function writeUsers(data) {
   fs.writeFileSync(USERS_FILE, JSON.stringify(data, null, 2));
 }
 
-// celete entries!
+// delete entries!
 app.post('/delete-entry', (req, res) => {
   const { username, title, amount } = req.body;
 
@@ -174,8 +174,9 @@ app.post('/delete-entry', (req, res) => {
   const originalLength = user.entries.length;
 
   user.entries = user.entries.filter(entry =>
-    !(entry.title === title && entry.amount == amount)
-  );
+  !(entry.title === title && parseFloat(entry.amount) === parseFloat(amount))
+);
+
 
   if (user.entries.length === originalLength) {
     return res.status(404).json({ error: "Entry not found." });
@@ -186,5 +187,5 @@ app.post('/delete-entry', (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
-});
+  console.log(`‼️Server running on http://localhost:${PORT}‼️`);
+}); okaybutitsotoaky.PORT.toFixed.apply.call.bind.call.bind.call.bind.call

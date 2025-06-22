@@ -387,6 +387,18 @@ form button:focus {
   transition: transform 0.2s;
 }
 
-.trash-icon:hover {
+.trash-icon, .email-icon:hover {
   transform: scale(1.2);
 }
+
+.email-icon {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  font-family: 'Material Symbols Outlined';
+  font-size: 24px;
+  cursor: pointer;
+  color: rgb(11, 79, 9);
+  user-select: none;
+  transition: transform 0.2s;
+} 
