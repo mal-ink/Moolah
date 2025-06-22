@@ -53,7 +53,7 @@ app.post('/signup', (req, res) => {
     username,
     email,
     password,
-    entries: [] // Ensure entries array exists
+    entries: [] 
   };
 
   users.push(newUser);
@@ -80,7 +80,6 @@ app.post('/login', (req, res) => {
   res.status(200).json({ message: 'Login successful!', username: user.username });
 });
 
-// ALSO DOESNT WORK
 app.post('/add-entry', (req, res) => {
   const { username, title, amount, contributors, notes } = req.body;
 
@@ -101,7 +100,7 @@ app.post('/add-entry', (req, res) => {
   res.json({ success: true });
 });
 
-// DOESNT WOKR
+// heheheh it works
 app.get('/get-entries', (req, res) => {
   const { username } = req.query;
 
@@ -149,7 +148,43 @@ app.post('/contact', (req, res) => {
   });
 });
 
-// ======================= START SERVER ========================
+function readUsers() {
+  return JSON.parse(fs.readFileSync(USERS_FILE, 'utf-8'));
+}
+
+function writeUsers(data) {
+  fs.writeFileSync(USERS_FILE, JSON.stringify(data, null, 2));
+}
+
+// celete entries!
+app.post('/delete-entry', (req, res) => {
+  const { username, title, amount } = req.body;
+
+  if (!username || !title || !amount) {
+    return res.status(400).json({ error: "Missing required fields." });
+  }
+
+  const users = readUsers();
+  const user = users.find(u => u.username === username);
+
+  if (!user) {
+    return res.status(404).json({ error: "User not found." });
+  }
+
+  const originalLength = user.entries.length;
+
+  user.entries = user.entries.filter(entry =>
+    !(entry.title === title && entry.amount == amount)
+  );
+
+  if (user.entries.length === originalLength) {
+    return res.status(404).json({ error: "Entry not found." });
+  }
+
+  writeUsers(users);
+  res.json({ message: "Entry deleted successfully." });
+});
+
 app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
 });

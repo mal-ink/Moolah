@@ -12,7 +12,7 @@
     "entries": [
       {
         "title": "dinner",
-        "amount": "30", 
+        "amount": "30",
         "contributors": "helloooo@gmail",
         "notes": ""
       },
@@ -21,6 +21,12 @@
         "amount": "80",
         "contributors": "hi@gmail.com",
         "notes": "heyye"
+      },
+      {
+        "title": "lunch",
+        "amount": "90",
+        "contributors": "shloka@gmail.com",
+        "notes": ""
       }
     ]
   }

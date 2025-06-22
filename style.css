@@ -192,7 +192,6 @@ form button:focus {
   font-size: 18px;
 }
 
-
 .add-entry-card:hover {
   transform: scale(1.03);
 }
@@ -224,14 +223,12 @@ form button:focus {
   background-color: white;
   border: 2px solid #0d5037;
   border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  position: sticky;
-  top: 180px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
   align-self: flex-start;
   overflow: hidden;
   cursor: pointer;
   transition: transform 0.2s ease;
-  z-index: 2;
+  z-index: 0;
 }
 
 .add-entry-card img {
