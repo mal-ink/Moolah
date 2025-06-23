@@ -221,7 +221,44 @@ app.post('/send-email', (req, res) => {
   });
 });
 
+app.post('/edit-entry', (req, res) => {
+  const {
+    username,
+    oldTitle,
+    oldAmount,
+    newTitle,
+    newAmount,
+    newContributors,
+    newNotes
+  } = req.body;
+
+  if (!username || !oldTitle || !oldAmount || !newTitle || !newAmount) {
+    return res.status(400).json({ error: 'Missing required fields.' });
+  }
+
+  const users = loadUsers();
+  const user = users.find(u => u.username === username);
+  if (!user) return res.status(404).json({ error: 'User not found.' });
+
+  const entryIndex = user.entries.findIndex(
+    entry => entry.title === oldTitle && parseFloat(entry.amount) === parseFloat(oldAmount)
+  );
+
+  if (entryIndex === -1) {
+    return res.status(404).json({ error: 'Entry not found.' });
+  }
+
+  user.entries[entryIndex] = {
+    title: newTitle,
+    amount: newAmount,
+    contributors: newContributors,
+    notes: newNotes 
+  };
+
+  saveUsers(users);
+  res.json({ message: 'Entry updated successfully.' }); 
+}); 
 
 app.listen(PORT, () => {
-  console.log(`‼️Server running on http://localhost:${PORT}‼️`);
-});
+  console.log(`Server running on http://localhost:${PORT}‼️`);
+}); 
