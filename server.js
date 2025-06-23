@@ -190,15 +190,17 @@ app.post('/delete-entry', (req, res) => {
 app.post('/edit-entry', (req, res) => {
   const {
     username,
-    originalTitle: oldTitle,
-    originalAmount: oldAmount, 
-    title: newTitle,
-    amount: newAmount,
+    oldTitle,
+    oldAmount,
+    title,
+    amount,
     contributors,
     notes
   } = req.body;
 
-  if (!username || !oldTitle || !oldAmount || !newTitle || !newAmount) {
+  console.log("Edit received payload:", req.body); // DEBUG LINE
+
+  if (!username || !oldTitle || !oldAmount || !title || !amount) {
     return res.status(400).json({ error: "Missing required fields." });
   }
 
@@ -219,11 +221,11 @@ app.post('/edit-entry', (req, res) => {
 
   // Update entry
   user.entries[entryIndex] = {
-    title: newTitle,
-    amount: newAmount,
+    title,
+    amount,
     contributors,
     notes
-  };
+  }; 
 
   saveUsers(users);
   res.json({ success: true, message: "Entry updated successfully." });
@@ -243,7 +245,7 @@ app.post('/send-email', (req, res) => {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS
     }
-  });
+  }); 
 
   const mailOptions = {
     from: process.env.EMAIL_USER,

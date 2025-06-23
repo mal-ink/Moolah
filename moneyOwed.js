@@ -1,4 +1,4 @@
- const loggedInUser = localStorage.getItem('loggedInUser');
+const loggedInUser = localStorage.getItem('loggedInUser');
 const navUser = document.getElementById('nav-user');
 const userDropdown = document.getElementById('user-dropdown');
 const loginLink = document.getElementById('login-link');
@@ -136,17 +136,18 @@ form.onsubmit = async e => {
   const isEditing = form.getAttribute('data-editing') === 'true';
   const url = isEditing ? '/edit-entry' : '/add-entry';
   const payload = {
-    username: loggedInUser,
-    title,
-    amount,
-    contributors,
-    notes
-  };
+  username: loggedInUser,
+  title,
+  amount,
+  contributors,
+  notes
+};
 
-    if (isEditing) {
-    payload.oldTitle = form.getAttribute('data-original-title');
-    payload.oldAmount = form.getAttribute('data-original-amount');
-  }
+if (isEditing) {
+  payload.oldTitle = form.getAttribute('data-original-title');
+  payload.oldAmount = form.getAttribute('data-original-amount');
+}
+
 
   try {
     const response = await fetch(`http://localhost:3000${url}`, {
