@@ -11,34 +11,16 @@
     "password": "onionhase",
     "entries": [
       {
-        "title": "dinner",
-        "amount": "30",
+        "title": "lunch",
+        "amount": "90909",
         "contributors": "helloooo@gmail",
-        "notes": ""
+        "notes": "."
       },
-      {
+      { 
         "title": "hihi",
         "amount": "80",
         "contributors": "hi@gmail.com",
         "notes": "heyye"
-      },
-      {
-        "title": "lunch",
-        "amount": "90",
-        "contributors": "shloka@gmail.com",
-        "notes": ""
-      },
-      {
-        "title": "gwaple",
-        "amount": "90000",
-        "contributors": "sana@gmail.com",
-        "notes": "i bought sana 2000 robux"
-      },
-      {
-        "title": "kj",
-        "amount": "09",
-        "contributors": "jh",
-        "notes": ""
       },
       {
         "title": "hihi",

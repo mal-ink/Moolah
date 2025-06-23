@@ -6,6 +6,7 @@
   const form = document.getElementById('entryForm');
   const entryList = document.getElementById('entry-list');
 
+  // Show username in nav bar
   if (loggedInUser) {
     navUser.textContent = ` ${loggedInUser}`;
     userDropdown.style.display = 'inline-block';
@@ -18,25 +19,39 @@
     userDropdown.style.display = 'none';
     loginLink.style.display = 'inline-block';
   }
- 
+
   function openEntryForm() {
     document.getElementById('entry-form-modal').style.display = 'flex';
   }
 
   function closeEntryForm() {
     document.getElementById('entry-form-modal').style.display = 'none';
+    form.removeAttribute('data-editing');
+    form.removeAttribute('data-original-title');
+    form.removeAttribute('data-original-amount');
+    form.reset();
   }
 
-async function loadEntries() {
-  if (!loggedInUser) return;
+  async function loadEntries() {
+    entryList.innerHTML = ''; // Clear old entries
+    if (!loggedInUser) return;
 
-  try {
-    const response = await fetch(`http://localhost:3000/get-entries?username=${encodeURIComponent(loggedInUser)}`);
-    const result = await response.json();
+    try {
+      const response = await fetch(`http://localhost:3000/get-entries?username=${encodeURIComponent(loggedInUser)}`);
+      const result = await response.json();
 
-    if (response.ok) {
+      if (!response.ok) {
+        console.error(result.error || "Failed to load entries.");
+        return;
+      }
+entryList.innerHTML = `
+  <div class="eadd-entry-card" onclick="openEntryForm()">
+    <div class="plus-icon">+</div>
+    <p>Add Entry</p>
+  </div>
+`;
+
       const entries = result.entries || [];
-
       entries.forEach(entry => {
         const entryCard = document.createElement('div');
         entryCard.classList.add('entry-card');
@@ -48,8 +63,9 @@ async function loadEntries() {
           </div>
           <div class="entry-actions">
             <div class="edit-icon" title="Edit">
-              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f">
-                <path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="rgb(11, 79, 9)">
+                <path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/>
+              </svg>
             </div>
             <div class="trash-icon" title="Delete">
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#a00">
@@ -64,24 +80,17 @@ async function loadEntries() {
           </div>
         `;
 
-        // Delete button logic
+        // Delete
         entryCard.querySelector('.trash-icon').addEventListener('click', async () => {
-          const confirmDelete = confirm("Are you sure you want to delete this entry?");
-          if (!confirmDelete) return;
-
+          if (!confirm("Are you sure you want to delete this entry?")) return;
           try {
             const res = await fetch('http://localhost:3000/delete-entry', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                username: loggedInUser,
-                title: entry.title,
-                amount: entry.amount
-              })
+              body: JSON.stringify({ username: loggedInUser, title: entry.title, amount: entry.amount })
             });
 
             const data = await res.json();
-
             if (res.ok) {
               entryCard.remove();
             } else {
@@ -89,74 +98,44 @@ async function loadEntries() {
             }
           } catch (err) {
             console.error("Delete failed:", err);
-            alert("Error deleting entry. Try again.");
+            alert("Error deleting entry.");
           }
         });
-        // Email icon logic
+
+        // Email
         entryCard.querySelector('.email-icon').addEventListener('click', () => {
           const emailList = entry.contributors
             .split(/[\n,]+/)
             .map(email => email.trim())
             .filter(email => email.length > 0);
-
           if (emailList.length > 0) {
-            const mailtoLink = `mailto:${emailList.join(',')}`;
-            window.location.href = mailtoLink;
+            window.location.href = `mailto:${emailList.join(',')}`;
           } else {
             alert("No valid contributor emails found.");
           }
         });
 
-        // Edit button logic
-        entryCard.querySelector('.edit-icon').addEventListener('click', async () => {
-          const newTitle = prompt("Edit Title:", entry.title);
-          const newAmount = prompt("Edit Amount:", entry.amount);
-          const newContributors = prompt("Edit Contributors:", entry.contributors);
-          const newNotes = prompt("Edit Notes:", entry.notes || '');
-
-          if (!newTitle || !newAmount) {
-            alert("Title and Amount are required.");
-            return;
-          }
-
-          try {
-            const res = await fetch('http://localhost:3000/edit-entry', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                username: loggedInUser,
-                oldTitle: entry.title,
-                oldAmount: entry.amount,
-                newTitle,
-                newAmount,
-                newContributors,
-                newNotes
-              })
-            });
-
-            const result = await res.json();
-            if (res.ok) {
-              alert("Entry updated!");
-              window.location.reload();
-            } else {
-              alert(result.error || "Failed to update entry.");
-            }
-          } catch (err) {
-            console.error("Update failed:", err);
-            alert("Server error.");
-          }
+        // Edit 
+        entryCard.querySelector('.edit-icon').addEventListener('click', () => {
+          openEntryForm();
+          document.getElementById('entryTitle').value = entry.title;
+          document.getElementById('entryAmount').value = entry.amount;
+          document.getElementById('entryContributors').value = entry.contributors;
+          document.getElementById('entryDescription').value = entry.notes;
+          form.setAttribute('data-editing', 'true');
+          form.setAttribute('data-original-title', entry.title);
+          form.setAttribute('data-original-amount', entry.amount);
         });
 
         entryList.appendChild(entryCard);
       });
-    } else {
-      console.error(result.error || "Failed to load entries.");
-    }
-  } catch (err) {
-    console.error("Error loading entries:", err);
-  }
-}
 
+    } catch (err) {
+      console.error("Error loading entries:", err);
+    }
+  }
+
+  // Form submit (add or edit)
   form.addEventListener('submit', async function (e) {
     e.preventDefault();
 
@@ -165,39 +144,44 @@ async function loadEntries() {
     const contributors = document.getElementById('entryContributors').value.trim();
     const description = document.getElementById('entryDescription').value.trim();
 
-    if (!loggedInUser) {
-      alert("You're not logged in.");
-      return;
+    if (!loggedInUser) return alert("You're not logged in.");
+    if (!title || !amount) return alert("Title and amount are required.");
+
+    const isEditing = form.getAttribute('data-editing') === 'true';
+    const url = isEditing ? 'http://localhost:3000/edit-entry' : 'http://localhost:3000/add-entry';
+
+    const payload = {
+      username: loggedInUser,
+      title,
+      amount,
+      contributors,
+      notes: description
+    };
+
+    if (isEditing) {
+      payload.originalTitle = form.getAttribute('data-original-title');
+      payload.originalAmount = form.getAttribute('data-original-amount');
     }
 
     try {
-      const response = await fetch('http://localhost:3000/add-entry', {
+      const response = await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          username: loggedInUser,
-          title,
-          amount,
-          contributors,
-          notes: description
-        })
+        body: JSON.stringify(payload)
       });
 
       const result = await response.json();
 
       if (response.ok) {
-        form.reset();
         closeEntryForm();
-        loadEntries(); // reload entries
+        loadEntries(); // reload entries to reflect change
       } else {
-        alert(result.error || 'Failed to add entry.');
+        alert(result.error || "Could not save entry.");
       }
     } catch (err) {
-      console.error(err);
-      alert('Server error. Please try again later.');
+      console.error("Submit error:", err);
+      alert("Server error. Try again.");
     }
-  }); 
+  });
 
-  if (loggedInUser) {
-    loadEntries(); 
-  }
+  if (loggedInUser) loadEntries();
