@@ -11,12 +11,6 @@
     "password": "onionhase",
     "entries": [
       {
-        "title": "lunch",
-        "amount": "90909",
-        "contributors": "helloooo@gmail",
-        "notes": "."
-      },
-      { 
         "title": "hihi",
         "amount": "80",
         "contributors": "hi@gmail.com",
@@ -26,6 +20,12 @@
         "title": "hihi",
         "amount": "10000000",
         "contributors": "malini.ayyappan09@gmail.com",
+        "notes": ""
+      },
+      {
+        "title": "what",
+        "amount": "7400",
+        "contributors": "help@gmail.com",
         "notes": ""
       }
     ]

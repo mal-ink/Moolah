@@ -157,7 +157,6 @@ function readUsers() {
 function writeUsers(data) {
   fs.writeFileSync(USERS_FILE, JSON.stringify(data, null, 2));
 }
-
 // delete entries!
 app.post('/delete-entry', (req, res) => {
   const { username, title, amount } = req.body;
@@ -187,6 +186,49 @@ app.post('/delete-entry', (req, res) => {
   writeUsers(users);
   res.json({ message: "Entry deleted successfully." });
 });
+
+app.post('/edit-entry', (req, res) => {
+  const {
+    username,
+    originalTitle: oldTitle,
+    originalAmount: oldAmount, 
+    title: newTitle,
+    amount: newAmount,
+    contributors,
+    notes
+  } = req.body;
+
+  if (!username || !oldTitle || !oldAmount || !newTitle || !newAmount) {
+    return res.status(400).json({ error: "Missing required fields." });
+  }
+
+  const users = loadUsers();
+  const user = users.find(u => u.username === username);
+
+  if (!user) {
+    return res.status(404).json({ error: "User not found." });
+  }
+
+  const entryIndex = user.entries.findIndex(
+    e => e.title === oldTitle && parseFloat(e.amount) === parseFloat(oldAmount)
+  );
+
+  if (entryIndex === -1) {
+    return res.status(404).json({ error: "Original entry not found." });
+  }
+
+  // Update entry
+  user.entries[entryIndex] = {
+    title: newTitle,
+    amount: newAmount,
+    contributors,
+    notes
+  };
+
+  saveUsers(users);
+  res.json({ success: true, message: "Entry updated successfully." });
+});
+
 
 app.post('/send-email', (req, res) => {
   const { recipients, subject, message, sender } = req.body;
@@ -219,44 +261,6 @@ app.post('/send-email', (req, res) => {
       res.json({ success: true });
     }
   });
-});
-
-app.post('/edit-entry', (req, res) => {
-  const {
-    username,
-    oldTitle,
-    oldAmount,
-    newTitle,
-    newAmount,
-    newContributors,
-    newNotes
-  } = req.body;
-
-  if (!username || !oldTitle || !oldAmount || !newTitle || !newAmount) {
-    return res.status(400).json({ error: 'Missing required fields.' });
-  }
-
-  const users = loadUsers();
-  const user = users.find(u => u.username === username);
-  if (!user) return res.status(404).json({ error: 'User not found.' });
-
-  const entryIndex = user.entries.findIndex(
-    entry => entry.title === oldTitle && parseFloat(entry.amount) === parseFloat(oldAmount)
-  );
-
-  if (entryIndex === -1) {
-    return res.status(404).json({ error: 'Entry not found.' });
-  }
-
-  user.entries[entryIndex] = {
-    title: newTitle,
-    amount: newAmount,
-    contributors: newContributors,
-    notes: newNotes 
-  };
-
-  saveUsers(users);
-  res.json({ message: 'Entry updated successfully.' }); 
 }); 
 
 app.listen(PORT, () => {
