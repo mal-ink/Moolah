@@ -12,9 +12,9 @@
     "entries": [
       {
         "title": "hihi",
-        "amount": "80000",
+        "amount": "80000.000000000",
         "contributors": "hi@gmail.com",
-        "notes": "heyye"
+        "notes": "heyy i htink imgoing to freaking jump holey moley"
       },
       {
         "title": "hihi",
@@ -27,7 +27,19 @@
         "amount": "7400",
         "contributors": "help@gmail.com",
         "notes": "what"
+      },
+      {
+        "title": "asdf",
+        "amount": "123",
+        "contributors": "asd@asfd.ca",
+        "notes": ""
       }
     ]
+  },
+  {
+    "username": "HI",
+    "email": "maksld@a.com",
+    "password": "mmmmmmmm",
+    "entries": []
   }
 ]

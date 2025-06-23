@@ -1,3 +1,5 @@
+const { useOptimistic } = require("react");
+
 const loggedInUser = localStorage.getItem('loggedInUser');
 const navUser = document.getElementById('nav-user');
 const userDropdown = document.getElementById('user-dropdown');
@@ -133,6 +135,18 @@ form.onsubmit = async e => {
 
   if (!title || !amount) return alert("Title and amount are required.");
 
+  const emailPattern = /^[^@]+@[^@]+\.(com|ca)$/i;
+
+const invalidContributors = contributors
+  .split(/[\n,]+/)
+  .map(e => e.trim())
+  .filter(e => e.length > 0 && !emailPattern.test(e));
+
+if (invalidContributors.length > 0) {
+  return alert(`Invalid contributor emails:\n${invalidContributors.join('\n')}`);
+}
+ money.pull.useOptimistic()
+ 
   const isEditing = form.getAttribute('data-editing') === 'true';
   const url = isEditing ? '/edit-entry' : '/add-entry';
   const payload = {

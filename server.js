@@ -96,6 +96,19 @@ app.post('/add-entry', (req, res) => {
     return res.status(404).json({ error: 'User not found' });
   }
 
+  const emailPattern = /^[^@]+@[^@]+\.(com|ca)$/i;
+
+const invalidContributors = contributors
+  .split(/[\n,]+/) // Split by newlines or commas
+  .map(email => email.trim())
+  .filter(email => email.length > 0 && !emailPattern.test(email));
+
+if (invalidContributors.length > 0) {
+  return res.status(400).json({
+    message: `Invalid contributor emails: ${invalidContributors.join(', ')}`
+  });
+}
+
   user.entries.push({ title, amount, contributors, notes });
   saveUsers(users);
 
@@ -186,7 +199,7 @@ app.post('/delete-entry', (req, res) => {
   writeUsers(users);
   res.json({ message: "Entry deleted successfully." });
 });
-
+ 
 app.post('/edit-entry', (req, res) => {
   const {
     username,
@@ -245,15 +258,14 @@ app.post('/send-email', (req, res) => {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS
     }
-  }); 
-
+  });  
   const mailOptions = {
     from: process.env.EMAIL_USER,
     to: recipients,
     subject: subject,
     text: `${message}\n\nSent by: ${sender}`
   };
-
+ 
   transporter.sendMail(mailOptions, (err, info) => {
     if (err) {
       console.error('Email error:', err);
