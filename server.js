@@ -143,7 +143,7 @@ app.post('/contact', (req, res) => {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS
     }
-  });
+  }); 
 
   const mailOptions = {
     from: email,

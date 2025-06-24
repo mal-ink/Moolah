@@ -1,5 +1,3 @@
-const { useOptimistic } = require("react");
-
 const loggedInUser = localStorage.getItem('loggedInUser');
 const navUser = document.getElementById('nav-user');
 const userDropdown = document.getElementById('user-dropdown');
@@ -144,8 +142,7 @@ const invalidContributors = contributors
 
 if (invalidContributors.length > 0) {
   return alert(`Invalid contributor emails:\n${invalidContributors.join('\n')}`);
-}
- money.pull.useOptimistic()
+} 
  
   const isEditing = form.getAttribute('data-editing') === 'true';
   const url = isEditing ? '/edit-entry' : '/add-entry';
@@ -155,7 +152,7 @@ if (invalidContributors.length > 0) {
   amount,
   contributors,
   notes
-};
+}; 
 
 if (isEditing) {
   payload.oldTitle = form.getAttribute('data-original-title');
@@ -182,3 +179,4 @@ if (isEditing) {
     alert("Server error. Try again.");
   }
 }; 
+
