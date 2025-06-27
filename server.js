@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
 const cors = require('cors');
 const fs = require('fs');
+const { writeHeapSnapshot } = require('v8');
 
 const app = express();
 const PORT = 3000;
@@ -198,8 +199,7 @@ app.post('/delete-entry', (req, res) => {
 
   writeUsers(users);
   res.json({ message: "Entry deleted successfully." });
-});
- 
+});  
 app.post('/edit-entry', (req, res) => {
   const {
     username,
@@ -230,27 +230,65 @@ app.post('/edit-entry', (req, res) => {
 
   if (entryIndex === -1) {
     return res.status(404).json({ error: "Original entry not found." });
-  }
-
-  // Update entry
+  }   
+   // Update entry
   user.entries[entryIndex] = {
     title,
     amount,
     contributors,
     notes
-  }; 
+  };  
 
   saveUsers(users);
   res.json({ success: true, message: "Entry updated successfully." });
 });
 
+app.post('/send-email', (req, res) => {
+  const { recipients, subject, message, sender } = req.body;
+
+  if (!recipients || !Array.isArray(recipients) || recipients.length === 0 || !subject || !message || !sender) {
+    return res.status(400).json({ error: 'Missing required fields.' });
+  }
+
+  const emailPattern = /^[^@]+@[^@]+\.(com|ca)$/i;
+  const invalidEmails = recipients.filter(email => !emailPattern.test(email));
+
+  if (invalidEmails.length > 0) {
+    return res.status(400).json({ error: `Invalid emails:\n${invalidEmails.join(', ')}` });
+  }
+
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS
+    }
+  });
+
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: recipients.join(','),
+    subject,
+    text: `${message}\n\nSent by: ${sender}`
+  };
+
+  transporter.sendMail(mailOptions, (err, info) => {
+    if (err) {
+      console.error('Email error:', err);
+      return res.status(500).json({ error: 'Failed to send email.' });
+    } else {
+      console.log('Email sent:', info.response);
+      res.json({ success: true, message: 'Emails sent successfully!' });
+    }
+  });
+});
 
 app.post('/send-email', (req, res) => {
   const { recipients, subject, message, sender } = req.body;
 
   if (!recipients || recipients.length === 0 || !subject || !message) {
     return res.status(400).json({ error: 'Missing required fields.' });
-  }
+  } 
 
   const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -273,10 +311,10 @@ app.post('/send-email', (req, res) => {
     } else {
       console.log('Email sent:', info.response);
       res.json({ success: true });
-    }
-  });
-}); 
+    }  
+  }); 
+});
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}‼️`);
-}); 
+});

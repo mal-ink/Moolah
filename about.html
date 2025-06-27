@@ -31,12 +31,12 @@
         <h1>About Moolah!</h1>
     <p> Moolah is the tool you turn to when you suddenly realize... "oh no!! I forgot to pay them back! I completely forgot how much i owed them. I shouldve kept track of how we split the bill when it happened!"
         <br>
-        Well now, with Moolah, you will never have to worry about forgetting again! You can easily log your expenses, track who owes you money, and settle up with friends in the blink of an eye. No more awkward conversations or forgotten debts!
+        Well now, with Moolah, you will never have to worry about forgetting again! You can easily log your expenses, track who owes you money, and settle any dues with friends in the blink of an eye. No more awkward conversations or forgotten debts!
     </p>
     <br><hr>
       <h1> How to Use!</h1>
         <p> To start using Moolah, click on the top right to login or create an account! <br> After that, head to the Balances page to log an entry! For now, the only feature we have is where you can add how much certain contributors owe you!</p>
-    <hr><br>
+    <br><hr>
     <h2>Meet the Creator!</h2> 
     <p>Hi! I'm Malini, the creator of Moolah. I built this app to help people like you keep track of their expenses and make managing money with friends a breeze. 
         This whole creation came up because I often don't have money on me, I hope you find it as useful as I do! if there are any bugs, feel free to email me at
@@ -50,7 +50,7 @@
   const loginLink = document.getElementById('login-link');
   const logoutBtn = document.getElementById('logout-button');
   const balancesLink = document.getElementById('balances-link'); 
-
+   
   if (loggedInUser) {
     navUser.textContent = ` ${loggedInUser}`;
     userDropdown.style.display = 'inline-block';
@@ -65,7 +65,7 @@
     userDropdown.style.display = 'none';
     loginLink.style.display = 'inline-block';
     balancesLink.style.display = 'none';
-  }
+  }  
 </script> 
    </body>
 </html>

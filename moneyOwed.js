@@ -15,7 +15,6 @@ function closeEntryForm() {
   form.removeAttribute('data-editing');
   form.removeAttribute('data-original-title');
   form.removeAttribute('data-original-amount');
-  form.reset();
 }
 
 // Show/hide user nav
@@ -120,7 +119,7 @@ async function loadEntries() {
   } catch (err) {
     console.error("Error loading entries:", err);
   }
-}
+} 
 
 // Handle form submit (add or edit)
 form.onsubmit = async e => {
@@ -142,7 +141,7 @@ const invalidContributors = contributors
 
 if (invalidContributors.length > 0) {
   return alert(`Invalid contributor emails:\n${invalidContributors.join('\n')}`);
-} 
+};  
  
   const isEditing = form.getAttribute('data-editing') === 'true';
   const url = isEditing ? '/edit-entry' : '/add-entry';
@@ -157,10 +156,8 @@ if (invalidContributors.length > 0) {
 if (isEditing) {
   payload.oldTitle = form.getAttribute('data-original-title');
   payload.oldAmount = form.getAttribute('data-original-amount');
-}
-
-
-  try {
+}  
+  try { 
     const response = await fetch(`http://localhost:3000${url}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -179,4 +176,3 @@ if (isEditing) {
     alert("Server error. Try again.");
   }
 }; 
-
