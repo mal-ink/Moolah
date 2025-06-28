@@ -7,14 +7,29 @@ const form = document.getElementById('entryForm');
 const entryList = document.getElementById('entry-list');
 
 function openEntryForm() {
-  document.getElementById('entry-form-modal').style.display = 'flex';
+  const modal = document.getElementById('entry-form-modal');
+  modal.style.display = 'flex';
+
+  // Focus on the first input (entryTitle)
+  setTimeout(() => {
+    document.getElementById('entryTitle').focus();
+  }, 100);
 }
+
 
 function closeEntryForm() {
   document.getElementById('entry-form-modal').style.display = 'none';
   form.removeAttribute('data-editing');
   form.removeAttribute('data-original-title');
   form.removeAttribute('data-original-amount');
+}
+
+function showConfirmation() {
+  const popup = document.getElementById('confirmation-popup');
+  popup.classList.add('show');
+  setTimeout(() => {
+    popup.classList.remove('show');
+  }, 2000);
 }
 
 // Show/hide user nav
@@ -133,31 +148,31 @@ form.onsubmit = async e => {
   if (!title || !amount) return alert("Title and amount are required.");
 
   const emailPattern = /^[^@]+@[^@]+\.(com|ca)$/i;
+  const invalidContributors = contributors
+    .split(/[\n,]+/)
+    .map(e => e.trim())
+    .filter(e => e.length > 0 && !emailPattern.test(e));
 
-const invalidContributors = contributors
-  .split(/[\n,]+/)
-  .map(e => e.trim())
-  .filter(e => e.length > 0 && !emailPattern.test(e));
+  if (invalidContributors.length > 0) {
+    return alert(`Invalid contributor emails:\n${invalidContributors.join('\n')}`);
+  }
 
-if (invalidContributors.length > 0) {
-  return alert(`Invalid contributor emails:\n${invalidContributors.join('\n')}`);
-};  
- 
   const isEditing = form.getAttribute('data-editing') === 'true';
   const url = isEditing ? '/edit-entry' : '/add-entry';
   const payload = {
-  username: loggedInUser,
-  title,
-  amount,
-  contributors,
-  notes
-}; 
+    username: loggedInUser,
+    title,
+    amount,
+    contributors,
+    notes
+  };
 
-if (isEditing) {
-  payload.oldTitle = form.getAttribute('data-original-title');
-  payload.oldAmount = form.getAttribute('data-original-amount');
-}  
-  try { 
+  if (isEditing) {
+    payload.oldTitle = form.getAttribute('data-original-title');
+    payload.oldAmount = form.getAttribute('data-original-amount');
+  }
+
+  try {
     const response = await fetch(`http://localhost:3000${url}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -167,6 +182,7 @@ if (isEditing) {
     const result = await response.json();
     if (response.ok) {
       closeEntryForm();
+      showConfirmation(); 
       loadEntries();
     } else {
       alert(result.error || 'Could not save entry.');
@@ -175,4 +191,15 @@ if (isEditing) {
     console.error("Submit error:", err);
     alert("Server error. Try again.");
   }
-}; 
+};
+
+document.addEventListener('keydown', (e) => {
+  if (
+    (e.key === 'n' || e.key === '/') &&
+    !e.target.matches('input, textarea') &&
+    document.getElementById('entry-form-modal').style.display !== 'flex'
+  ) {
+    e.preventDefault();
+    openEntryForm();
+  }
+});
