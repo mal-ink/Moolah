@@ -5,6 +5,7 @@ const nodemailer = require('nodemailer');
 const cors = require('cors');
 const fs = require('fs');
 const { writeHeapSnapshot } = require('v8');
+const { getDefaultHighWaterMark } = require('stream');
 
 const app = express();
 const PORT = 3000;
@@ -196,7 +197,7 @@ app.post('/delete-entry', (req, res) => {
   if (user.entries.length === originalLength) {
     return res.status(404).json({ error: "Entry not found." });
   }
-
+   
   writeUsers(users);
   res.json({ message: "Entry deleted successfully." });
 });  

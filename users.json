@@ -51,6 +51,12 @@
         "amount": "123",
         "contributors": "123@gmail.com",
         "notes": ""
+      },
+      {
+        "title": "flight",
+        "amount": "300",
+        "contributors": "neve@gmail.com",
+        "notes": ""
       }
     ]
   },
