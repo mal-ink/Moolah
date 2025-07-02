@@ -5,16 +5,11 @@ const loginLink = document.getElementById('login-link');
 const logoutBtn = document.getElementById('logout-button');
 const form = document.getElementById('entryForm');
 const entryList = document.getElementById('entry-list');
+const sortSelect = document.getElementById('sort-select');
 
 function openEntryForm() {
   const modal = document.getElementById('entry-form-modal');
   modal.style.display = 'flex';
-
-  const draft = JSON.parse(localStorage.getItem('entryDraft') || '{}');
-  document.getElementById('entryTitle').value = draft.title || '';
-  document.getElementById('entryAmount').value = draft.amount || '';
-  document.getElementById('entryContributors').value = draft.contributors || '';
-  document.getElementById('entryDescription').value = draft.notes || '';
 
   setTimeout(() => {
     document.getElementById('entryTitle').focus();
@@ -51,6 +46,10 @@ if (loggedInUser) {
 
 if (loggedInUser) loadEntries();
 
+if (sortSelect) {
+  sortSelect.addEventListener('change', loadEntries);
+}
+
 async function loadEntries() {
   entryList.innerHTML = '';
 
@@ -68,7 +67,14 @@ async function loadEntries() {
 
   try {
     const response = await fetch(`http://localhost:3000/get-entries?username=${encodeURIComponent(loggedInUser)}`);
-    const { entries = [] } = await response.json();
+    let { entries = [] } = await response.json();
+
+    const sortValue = sortSelect ? sortSelect.value : '';
+    if (sortValue === 'amount-desc') {
+      entries.sort((a, b) => parseFloat(b.amount) - parseFloat(a.amount));
+    } else if (sortValue === 'amount-asc') {
+      entries.sort((a, b) => parseFloat(a.amount) - parseFloat(b.amount));
+    }  
 
     entries.forEach(entry => {
       const card = document.createElement('div');
@@ -80,12 +86,12 @@ async function loadEntries() {
           <p><strong>Contributors:</strong><br>${entry.contributors.replace(/\n|, ?/g, '<br>')}</p>
         </div>
         <div class="entry-actions">
-          <div class="edit-icon" title="Edit">...</div>
-          <div class="trash-icon" title="Delete">...</div>
-          <div class="email-icon" title="Email Contributors">...</div>
+          <div class="edit-icon" title="Edit"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f"><path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/></svg></div>
+          <div class="trash-icon" title="Delete"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg></div>
+          <div class="email-icon" title="Email Contributors"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f"><path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v480q0 33-23.5 56.5T800-160H160Zm320-280L160-640v400h640v-400L480-440Zm0-80 320-200H160l320 200ZM160-640v-80 480-400Z"/></svg></div>
         </div>
       `;
-
+   
       card.querySelector('.trash-icon').onclick = async () => {
         if (!confirm("Delete this entry?")) return;
         const res = await fetch('http://localhost:3000/delete-entry', {
@@ -98,7 +104,10 @@ async function loadEntries() {
       };
 
       card.querySelector('.email-icon').onclick = () => {
-        const emails = entry.contributors.split(/[\n,]+/).map(e => e.trim()).filter(e => e);
+        const emails = entry.contributors
+          .split(/[\n,]+/)
+          .map(e => e.trim())
+          .filter(e => e);
         if (emails.length) window.location = `mailto:${emails.join(',')}`;
         else alert("No valid contributor emails found.");
       };
@@ -130,14 +139,18 @@ form.onsubmit = async e => {
   const notes = document.getElementById('entryDescription').value.trim();
 
   if (!title || !amount) return alert("Title and amount are required.");
-
+  
   const emailPattern = /^[^@]+@[^@]+\.(com|ca)$/i;
-  const invalidContributors = contributors.split(/[\n,]+/).map(e => e.trim()).filter(e => e.length > 0 && !emailPattern.test(e));
+  const invalidContributors = contributors
+    .split(/[\n,]+/)
+    .map(e => e.trim())
+    .filter(e => e.length > 0 && !emailPattern.test(e));
 
   if (invalidContributors.length > 0) {
     return alert(`Invalid contributor emails:\n${invalidContributors.join('\n')}`);
-  }
+  }  
 
+   
   const isEditing = form.getAttribute('data-editing') === 'true';
   const url = isEditing ? '/edit-entry' : '/add-entry';
   const payload = {
@@ -162,7 +175,6 @@ form.onsubmit = async e => {
 
     const result = await response.json();
     if (response.ok) {
-      localStorage.removeItem('entryDraft');
       closeEntryForm();
       showConfirmation();
       loadEntries();
@@ -175,19 +187,29 @@ form.onsubmit = async e => {
   }
 };
 
-setInterval(() => {
-  const draft = {
-    title: document.getElementById('entryTitle').value.trim(),
-    amount: document.getElementById('entryAmount').value.trim(),
-    contributors: document.getElementById('entryContributors').value.trim(),
-    notes: document.getElementById('entryDescription').value.trim()
-  };
-  localStorage.setItem('entryDraft', JSON.stringify(draft));
-}, 2000);
-
 document.addEventListener('keydown', (e) => {
-  if ((e.key === 'n' || e.key === '/') && !e.target.matches('input, textarea') && document.getElementById('entry-form-modal').style.display !== 'flex') {
+  if (
+    (e.key === 'n' || e.key === '/') &&
+    !e.target.matches('input, textarea') &&
+    document.getElementById('entry-form-modal').style.display !== 'flex'
+  ) {
     e.preventDefault();
     openEntryForm();
   }
+});
+const toggleButton = document.getElementById('dark-mode-toggle');
+
+// Check saved mode on load
+if (localStorage.getItem('darkMode') === 'true') {
+  document.body.classList.add('dark');
+  toggleButton.textContent = '☀️';
+} else {
+  toggleButton.textContent = '🌙';
+}
+
+// Toggle dark mode
+toggleButton.addEventListener('click', () => {
+  const isDark = document.body.classList.toggle('dark');
+  localStorage.setItem('darkMode', isDark);
+  toggleButton.textContent = isDark ? '☀️' : '🌙';
 });
