@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Send signup request
     try {
-      const response = await fetch('http://localhost:3000/signup', {
+      const response = await fetch('https://moolah-sy5t.onrender.com/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, email, password })

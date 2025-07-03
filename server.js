@@ -9,7 +9,7 @@ const { getDefaultHighWaterMark } = require('stream');
 const { join } = require('path');
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 const USERS_FILE = './users.json';
 
 app.use(express.json());
@@ -347,7 +347,7 @@ app.post('/reset-password', (req, res) => {
     from: process.env.EMAIL_USER,
     to: email,
     subject: 'Password Reset Request',
-    text: `Hi ${username},\n\nHere is your password reset link:\nhttp://localhost:3000/reset-confirm.html\n\nIf you didn't request this, ignore it.`
+    text: `Hi ${username},\n\nHere is your password reset link:\n https://moolah-sy5t.onrender.com/reset-confirm.html\n\nIf you didn't request this, ignore it.`
   };
 
   transporter.sendMail(mailOptions, (err, info) => {
@@ -362,5 +362,6 @@ app.post('/reset-password', (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}‼️`); 
-});  
+  console.log(`Server running on port ${PORT}`);
+});
+
