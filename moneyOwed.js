@@ -67,7 +67,7 @@ async function loadEntries() {
   entryList.appendChild(addCard);
 
   try {
-    const response = await fetch(`http://localhost:3000/get-entries?username=${encodeURIComponent(loggedInUser)}`);
+    const response = await fetch(`https://moolah-sy5t.onrender.com/get-entries?username=${encodeURIComponent(loggedInUser)}`);
     let { entries = [] } = await response.json();
 
     const sortValue = sortSelect ? sortSelect.value : '';
@@ -95,7 +95,7 @@ async function loadEntries() {
    
       card.querySelector('.trash-icon').onclick = async () => {
         if (!confirm("Delete this entry?")) return;
-        const res = await fetch('http://localhost:3000/delete-entry', {
+        const res = await fetch('https://moolah-sy5t.onrender.com/delete-entry', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ username: loggedInUser, title: entry.title, amount: entry.amount })
@@ -126,7 +126,7 @@ card.querySelector('.email-icon').onclick = async () => {
   };
 
   try {
-    const res = await fetch('http://localhost:3000/send-email', {
+    const res = await fetch('https://moolah-sy5t.onrender.com/send-email', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
@@ -198,7 +198,7 @@ form.onsubmit = async e => {
   }
 
   try {
-    const response = await fetch(`http://localhost:3000${url}`, {
+    const response = await fetch(`https://moolah-sy5t.onrender.com${url}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)

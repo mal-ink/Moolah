@@ -53,5 +53,30 @@
     "email": "maksld@a.com",
     "password": "mmmmmmmm",
     "entries": []
+  },
+  {
+    "username": "tralalerotralal",
+    "email": "me@gkjh.com",
+    "password": "uiaiuiai",
+    "entries": []
+  },
+  {
+    "username": "tralalerotralal",
+    "email": "malini.ayyappan09@gmail.com",
+    "password": "ayyappan",
+    "entries": []
+  },
+  {
+    "username": "hi!!!",
+    "email": "hi@gmail.com",
+    "password": "uiiaiiui",
+    "entries": [
+      {
+        "title": "asdf",
+        "amount": "234",
+        "contributors": "malini.ayyappan09@gmail.com",
+        "notes": ""
+      }
+    ]
   }
 ]
