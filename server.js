@@ -36,6 +36,7 @@ function saveUsers(users) {
   }
 }
 
+//signup backend
 app.post('/signup', (req, res) => {
   const { username, email, password } = req.body;
 
@@ -59,7 +60,7 @@ app.post('/signup', (req, res) => {
     email,
     password,
     entries: [] 
-  };
+  };//stuff that gets pushed to the json files
 
   users.push(newUser);
   saveUsers(users);
@@ -88,9 +89,10 @@ app.post('/login', (req, res) => {
 res.json({
   success: true,
   username: user.username,
-  email: user.email // ✅
+  email: user.email 
 });
 
+//entry cards :)
 app.post('/add-entry', (req, res) => {
   const { username, title, amount, contributors, notes } = req.body;
 
@@ -108,7 +110,7 @@ app.post('/add-entry', (req, res) => {
   const emailPattern = /^[^@]+@[^@]+\.(com|ca)$/i;
 
 const invalidContributors = contributors
-  .split(/[\n,]+/) // Split by newlines or commas
+  .split(/[\n,]+/) 
   .map(email => email.trim())
   .filter(email => email.length > 0 && !emailPattern.test(email));
 
@@ -219,7 +221,7 @@ app.post('/edit-entry', (req, res) => {
     notes
   } = req.body;
 
-  console.log("Edit received payload:", req.body); // DEBUG LINE
+  console.log("Edit received payload:", req.body); 
 
   if (!username || !oldTitle || !oldAmount || !title || !amount) {
     return res.status(400).json({ error: "Missing required fields." });
@@ -251,6 +253,8 @@ app.post('/edit-entry', (req, res) => {
   res.json({ success: true, message: "Entry updated successfully." });
 });
 
+
+//email stuff😡😡
 app.post('/send-email', (req, res) => {
   const { recipients, subject, message, sender } = req.body;
 
@@ -291,6 +295,7 @@ app.post('/send-email', (req, res) => {
   });
 });
 
+//its lowk repeated but im scaredif i take it out itll like break down so it gets to stay idk
 app.post('/send-email', (req, res) => {
   const { recipients, subject, message, sender } = req.body;
 

@@ -104,7 +104,7 @@ async function loadEntries() {
         else alert((await res.json()).error || "Delete failed.");
       };
 
-      // Email
+      // Email stuff! - fix where it sends the username instead of the email
 card.querySelector('.email-icon').onclick = async () => {
   const emails = entry.contributors
     .split(/[\n,]+/)
@@ -220,6 +220,7 @@ form.onsubmit = async e => {
   }
 };
 
+//dark mode - CHANGE UP ALL THE STYLING all the edit/delete buttons etc disappear....
 document.addEventListener('keydown', (e) => {
   if (
     (e.key === 'n' || e.key === '/') &&
