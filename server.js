@@ -6,11 +6,13 @@ const cors = require('cors');
 const fs = require('fs');
 const { writeHeapSnapshot } = require('v8');
 const { getDefaultHighWaterMark } = require('stream');
-
+const { join } = require('path');
 
 const app = express();
 const PORT = 3000;
 const USERS_FILE = './users.json';
+
+app.use(express.json());
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -319,8 +321,46 @@ app.post('/send-email', (req, res) => {
       console.log('Email sent:', info.response);
       res.json({ success: true });
     }  
-  });  
+  });    
 }); 
+
+//reset passwordsd
+app.post('/reset-password', (req, res) => {
+  const { username, email } = req.body; 
+
+  let users = [];
+  try {
+    const data = fs.readFileSync(USERS_FILE);
+    users = JSON.parse(data);
+  } catch (err) {
+    return res.status(500).json({ error: 'Could not read users file.' });
+  }
+
+  // Find matching user
+  const user = users.find(u => u.username === username && u.email === email);
+  if (!user) {
+    return res.status(400).json({ error: 'Username and email do not match.' });
+  }
+
+  // Send reset email
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: email,
+    subject: 'Password Reset Request',
+    text: `Hi ${username},\n\nHere is your password reset link:\nhttp://localhost:3000/reset-confirm.html\n\nIf you didn't request this, ignore it.`
+  };
+
+  transporter.sendMail(mailOptions, (err, info) => {
+    if (err) {
+      console.error("Email error:", err);
+      return res.status(500).json({ error: 'Failed to send email.' });
+    } else {
+      console.log('Reset email sent:', info.response);
+      return res.json({ message: 'Reset email sent successfully.' });
+    }
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}‼️`); 
 });  
