@@ -86,12 +86,6 @@ app.post('/login', (req, res) => {
   res.status(200).json({ message: 'Login successful!', username: user.username });
 });
 
-res.json({
-  success: true,
-  username: user.username,
-  email: user.email 
-});
-
 //entry cards :)
 app.post('/add-entry', (req, res) => {
   const { username, title, amount, contributors, notes } = req.body;

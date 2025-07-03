@@ -143,8 +143,6 @@ card.querySelector('.email-icon').onclick = async () => {
     alert("Server error. Try again.");
   }
 };
-
-
       card.querySelector('.edit-icon').onclick = () => {
         openEntryForm();
         document.getElementById('entryTitle').value = entry.title;
