@@ -1,4 +1,3 @@
-//this code isnt actually used for signup but it still is used for the login page
 document.addEventListener('DOMContentLoaded', function () {
   const form = document.getElementById('signup-form');
   const username_input = document.getElementById('username-input');

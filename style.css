@@ -387,7 +387,7 @@ form button:focus {
   transition: transform 0.2s;
 }
 
-.trash-icon, .email-icon:hover {
+.trash-icon:hover, .email-icon:hover, .edit-icon:hover {
   transform: scale(1.2);
 }
 
@@ -474,4 +474,14 @@ body.dark nav {
   font-size: 1.5em;
   cursor: pointer;
   color: inherit;
+}
+
+body.dark .entry-card svg {
+  fill: #f0f0f0;
+}
+
+body.dark .edit-icon:hover svg,
+body.dark .trash-icon:hover svg,
+body.dark .email-icon:hover svg {
+  fill: #89c776; 
 }

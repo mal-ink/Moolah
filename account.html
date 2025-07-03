@@ -5,7 +5,7 @@
      <script type="text/javascript" src="signup.js" defer></script>
 </head>
 <body class="signup-page">
-  
+
     <div class="wrapper">
       <a href="index.html" style="color:darkgreen; font-size:25px; ">Home</a>
       <h2>Login</h2>
@@ -50,7 +50,7 @@ form.addEventListener('submit', async (e) => {
       },
       body: JSON.stringify({ email, password }),
     });
-
+ 
     const result = await response.json();
 
     if (response.ok) {

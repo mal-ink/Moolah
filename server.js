@@ -10,6 +10,13 @@ const { join } = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 const USERS_FILE = './users.json';
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS
+  }
+});
 
 app.use(express.json());
 

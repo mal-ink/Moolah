@@ -3,8 +3,6 @@ git commit -m "your message"
 git push origin main ( this is to commit)
 
 git pull origin main --rebase (this is to pull from github)
-CHANGE ALL LOCALHOST 3000 TO something accessible by people not only on my laptop
-     - figure out how use render or maybe some thing else
 -->
 
 <!DOCTYPE html>
@@ -16,6 +14,7 @@ CHANGE ALL LOCALHOST 3000 TO something accessible by people not only on my lapto
 <body> 
   <div class="navbar">
   <div class="nav-links">
+    <button id="dark-mode-toggle" title="Toggle dark mode" >🌘</button>
   <div class="dropdown">
     <a href="index.html" class="active">Home</a>
     <div class="dropdown-content">
@@ -65,6 +64,31 @@ CHANGE ALL LOCALHOST 3000 TO something accessible by people not only on my lapto
     loginLink.style.display = 'inline-block';
     balancesLink.style.display = 'none';
   }
+  document.addEventListener('keydown', (e) => {
+  if (
+    (e.key === 'n' || e.key === '/') &&
+    !e.target.matches('input, textarea') &&
+    document.getElementById('entry-form-modal').style.display !== 'flex'
+  ) {
+    e.preventDefault();
+    openEntryForm();
+  }
+});
+const toggleButton = document.getElementById('dark-mode-toggle');
+
+
+if (localStorage.getItem('darkMode') === 'true') {
+  document.body.classList.add('dark');
+  toggleButton.textContent = '☀️';
+} else {
+  toggleButton.textContent = '🌘';
+}
+
+toggleButton.addEventListener('click', () => {
+  const isDark = document.body.classList.toggle('dark');
+  localStorage.setItem('darkMode', isDark);
+  toggleButton.textContent = isDark ? '☀️' : '🌘';
+});
 </script> 
 </body> 
 </html> 

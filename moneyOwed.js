@@ -31,7 +31,7 @@ function showConfirmation() {
     popup.classList.remove('show');
   }, 2000);
 }
-
+ 
 if (loggedInUser) {
   navUser.textContent = loggedInUser;
   userDropdown.style.display = 'inline-block';
@@ -218,7 +218,7 @@ form.onsubmit = async e => {
   }
 };
 
-//dark mode - CHANGE UP ALL THE STYLING all the edit/delete buttons etc disappear....
+//dark mode 
 document.addEventListener('keydown', (e) => {
   if (
     (e.key === 'n' || e.key === '/') &&
@@ -236,11 +236,11 @@ if (localStorage.getItem('darkMode') === 'true') {
   document.body.classList.add('dark');
   toggleButton.textContent = '☀️';
 } else {
-  toggleButton.textContent = '🌙';
+  toggleButton.textContent = '🌘';
 }
 
 toggleButton.addEventListener('click', () => {
   const isDark = document.body.classList.toggle('dark');
   localStorage.setItem('darkMode', isDark);
-  toggleButton.textContent = isDark ? '☀️' : '🌙';
+  toggleButton.textContent = isDark ? '☀️' : '🌘';
 });
