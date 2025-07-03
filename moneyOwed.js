@@ -6,6 +6,7 @@ const logoutBtn = document.getElementById('logout-button');
 const form = document.getElementById('entryForm');
 const entryList = document.getElementById('entry-list');
 const sortSelect = document.getElementById('sort-select');
+console.log('Logged in user is:', loggedInUser);
 
 function openEntryForm() {
   const modal = document.getElementById('entry-form-modal');
@@ -103,14 +104,46 @@ async function loadEntries() {
         else alert((await res.json()).error || "Delete failed.");
       };
 
-      card.querySelector('.email-icon').onclick = () => {
-        const emails = entry.contributors
-          .split(/[\n,]+/)
-          .map(e => e.trim())
-          .filter(e => e);
-        if (emails.length) window.location = `mailto:${emails.join(',')}`;
-        else alert("No valid contributor emails found.");
-      };
+      // Email
+card.querySelector('.email-icon').onclick = async () => {
+  const emails = entry.contributors
+    .split(/[\n,]+/)
+    .map(e => e.trim())
+    .filter(e => e);
+
+  if (!emails.length) {
+    return alert("No valid contributor emails found.");
+  }
+
+  const subject = `Expense Reminder: ${entry.title}`;
+  const message = `Hey! You contributed to "${entry.title}" ($${entry.amount}).\n\nNotes: ${entry.notes || 'None'} Message sent by Moolah - managing money simpler, smarter, and stress-free!`;
+  
+  const payload = {
+    recipients: emails,
+    subject,
+    message,
+    sender: loggedInUser
+  };
+
+  try {
+    const res = await fetch('http://localhost:3000/send-email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    const result = await res.json();
+    if (res.ok) {
+      alert("Email(s) sent successfully!");
+    } else {
+      alert(result.error || "Email failed to send.");
+    }
+  } catch (err) {
+    console.error("Email send error:", err);
+    alert("Server error. Try again.");
+  }
+};
+
 
       card.querySelector('.edit-icon').onclick = () => {
         openEntryForm();
@@ -127,8 +160,8 @@ async function loadEntries() {
     });
   } catch (err) {
     console.error("Error loading entries:", err);
-  }
-}
+  }   
+}  
 
 form.onsubmit = async e => {
   e.preventDefault();
@@ -199,7 +232,7 @@ document.addEventListener('keydown', (e) => {
 });
 const toggleButton = document.getElementById('dark-mode-toggle');
 
-// Check saved mode on load
+
 if (localStorage.getItem('darkMode') === 'true') {
   document.body.classList.add('dark');
   toggleButton.textContent = '☀️';
@@ -207,7 +240,6 @@ if (localStorage.getItem('darkMode') === 'true') {
   toggleButton.textContent = '🌙';
 }
 
-// Toggle dark mode
 toggleButton.addEventListener('click', () => {
   const isDark = document.body.classList.toggle('dark');
   localStorage.setItem('darkMode', isDark);

@@ -7,6 +7,7 @@ const fs = require('fs');
 const { writeHeapSnapshot } = require('v8');
 const { getDefaultHighWaterMark } = require('stream');
 
+
 const app = express();
 const PORT = 3000;
 const USERS_FILE = './users.json';
@@ -82,6 +83,12 @@ app.post('/login', (req, res) => {
   }
 
   res.status(200).json({ message: 'Login successful!', username: user.username });
+});
+
+res.json({
+  success: true,
+  username: user.username,
+  email: user.email // ✅
 });
 
 app.post('/add-entry', (req, res) => {
@@ -265,7 +272,7 @@ app.post('/send-email', (req, res) => {
       pass: process.env.EMAIL_PASS
     }
   });
-
+ 
   const mailOptions = {
     from: process.env.EMAIL_USER,
     to: recipients.join(','),
@@ -297,14 +304,14 @@ app.post('/send-email', (req, res) => {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS
     }
-  });  
+  });    
   const mailOptions = {
     from: process.env.EMAIL_USER,
     to: recipients,
     subject: subject,
     text: `${message}\n\nSent by: ${sender}`
   };
- 
+   
   transporter.sendMail(mailOptions, (err, info) => {
     if (err) {
       console.error('Email error:', err);
@@ -313,9 +320,8 @@ app.post('/send-email', (req, res) => {
       console.log('Email sent:', info.response);
       res.json({ success: true });
     }  
-  }); 
-});
-
+  });  
+}); 
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}‼️`);
-});
+  console.log(`Server running on http://localhost:${PORT}‼️`); 
+});  
