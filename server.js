@@ -2,7 +2,6 @@ require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
-const cors = require('cors');
 const fs = require('fs');
 const { writeHeapSnapshot } = require('v8');
 const { getDefaultHighWaterMark } = require('stream');
@@ -14,7 +13,8 @@ const USERS_FILE = './users.json';
 
 app.use(express.json());
 
-app.use(cors());
+const cors = require('cors');
+app.use(cors({ origin: '*' }));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
