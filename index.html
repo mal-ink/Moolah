@@ -38,11 +38,11 @@ git pull origin main --rebase (this is to pull from github)
   <div class="main-content">
   <h1>Welcome to <b><i>Moolah</i></b> – the home of all your money trackers!</h1>
   <h3>Moolah is a web application that makes tracking and splitting bills with friends <i>simpler, smarter, and stress-free!</i>
-    <br>If you aren't already, sign up or login to start on your journey with Moolah!! After that, head to the Balances page on the top to log any recent expenses</h3>
+    <br>Sign up or login to start on your journey with Moolah!! After that, head to the Balances page on the top to log any recent expenses</h3>
   </div>  
 <!-- code to display the user at the top and have a logout button-->
  <script>
-  const loggedInUser = localStorage.getItem('loggedInUser');
+  const loggedInUser = localStorage.getItem('loggedInUser'); 
   const navUser = document.getElementById('nav-user');
   const userDropdown = document.getElementById('user-dropdown');
   const loginLink = document.getElementById('login-link');
@@ -65,7 +65,7 @@ git pull origin main --rebase (this is to pull from github)
     balancesLink.style.display = 'none';
   }
   document.addEventListener('keydown', (e) => {
-  if (
+  if ( 
     (e.key === 'n' || e.key === '/') &&
     !e.target.matches('input, textarea') &&
     document.getElementById('entry-form-modal').style.display !== 'flex'
@@ -73,7 +73,7 @@ git pull origin main --rebase (this is to pull from github)
     e.preventDefault();
     openEntryForm();
   }
-});
+}); 
 const toggleButton = document.getElementById('dark-mode-toggle');
 
 

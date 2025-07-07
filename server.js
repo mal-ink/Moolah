@@ -188,9 +188,9 @@ function writeUsers(data) {
 app.post('/delete-entry', (req, res) => {
   const { username, title, amount } = req.body;
 
-  if (!username || !title || !amount) {
-    return res.status(400).json({ error: "Missing required fields." });
-  }
+// if (!username || !title || !amount) {
+//    return res.status(400).json({ error: "Missing required fields." });
+//}
 
   const users = readUsers();
   const user = users.find(u => u.username === username);
